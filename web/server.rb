@@ -1,6 +1,4 @@
-require 'sinatra'
-
-module BuildControl
+module ReleaseControl
   class WebServer < Sinatra::Base
     set :static, true
     set :public_folder, File.join(settings.root, 'static')

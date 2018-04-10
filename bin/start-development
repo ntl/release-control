@@ -4,4 +4,4 @@ set -ex
 
 APP_ENV=${APP_ENV:=production}
 
-ruby --disable-gems gems/bin/shotgun "$@"
+ruby --disable-gems gems/bin/shotgun web/config.ru "$@"
