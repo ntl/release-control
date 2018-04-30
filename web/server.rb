@@ -5,13 +5,9 @@ module ReleaseControl
     set :views, File.join(settings.root, 'templates')
 
     get '/' do
-      redirect '/repository'
-    end
+      @distributions = Queries::Distribution::List.()
 
-    get '/repository' do
-      @repository = []
-
-      erb :repository
+      erb :index
     end
   end
 

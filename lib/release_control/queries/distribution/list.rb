@@ -15,6 +15,17 @@ module ReleaseControl
           AWS::S3::Client::Object::Get.configure(self)
         end
 
+        def self.build
+          instance = new
+          instance.configure
+          instance
+        end
+
+        def self.call
+          instance = build
+          instance.()
+        end
+
         def call
           logger.trace { "Getting list of distributions (Distributions Setting: #{distributions * ', '})" }
 
