@@ -9,9 +9,7 @@ context "Settings" do
 
   receiver = cls.new
 
-  settings = ReleaseControl::Settings.build
-
-  settings.set(receiver)
+  ReleaseControl::Settings.set(receiver)
 
   test "Distributions is set" do
     refute(receiver.distributions.nil?)
