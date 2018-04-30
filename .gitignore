@@ -6,6 +6,7 @@
 /tmp
 /test/package/installed
 /materials
+/keyring
 .DS_store
 .archive
 script
