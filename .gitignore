@@ -5,6 +5,7 @@
 /settings
 /tmp
 /test/package/installed
+/materials
 .DS_store
 .archive
 script

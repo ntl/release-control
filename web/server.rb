@@ -5,7 +5,13 @@ module ReleaseControl
     set :views, File.join(settings.root, 'templates')
 
     get '/' do
-      erb :root
+      redirect '/repository'
+    end
+
+    get '/repository' do
+      @repository = []
+
+      erb :repository
     end
   end
 
