@@ -1,0 +1,7 @@
+{
+  "accessKeyID": "<<ACCESS KEY ID>>",
+  "secretAccessKey": "<<SECRET ACCESS KEY>>",
+  "bucket": "some-optional-bucket",
+  "region": "us-east-1",
+  "httpWireTrace": false
+}
