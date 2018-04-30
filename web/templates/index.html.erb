@@ -1,5 +1,91 @@
 <h1>Index</h1>
 
-<pre>
-<code><%= Rack::Utils.escape_html(@distributions.pretty_inspect) %></code>
-</pre>
+<div id="distributions">
+  <h2>Configured Distributions</h2>
+  <pre>
+  <code><%= Rack::Utils.escape_html(@configured_distributions.pretty_inspect) %></code>
+  </pre>
+</div>
+
+<div id="configure-distribution">
+  <h2>New Distribution</h2>
+  <form id="new-distribution" method="post" action="/distributions">
+    <div class="field">
+      <label for="select-distribution">
+        Distribution
+      </label>
+      <select id="select-distribution" name="distribution">
+        <% @distributions.each do |distribution| %>
+          <option value="<%= distribution %>">
+            <%= inflector.humanize(distribution) %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="select-components">
+        Components
+      </label>
+      <select multiple id="select-components" name="components[]">
+        <% @components.each do |component| %>
+          <option value="<%= component %>">
+            <%= inflector.humanize(component) %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="select-architectures" name="architectures[]">
+        Architectures
+      </label>
+      <select multiple id="select-architectures">
+        <% @architectures.each do |architecture| %>
+          <option value="<%= architecture %>">
+            <%= architecture %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="origin">
+        Origin
+      </label>
+      <input id="origin" name="origin" type="text" />
+    </div>
+
+    <div class="field">
+      <label for="label">
+        Label
+      </label>
+      <input id="label" name="label" type="text" />
+    </div>
+
+    <div class="field">
+      <label for="codename">
+        Codename
+      </label>
+      <input id="codename" name="codename" type="text" />
+    </div>
+
+    <div class="field">
+      <label for="not-automatic">
+        Not Automatic
+      </label>
+      <input id="not-automatic" name="notAutomatic" type="checkbox" />
+    </div>
+
+    <div class="field">
+      <label for="but-automatic-upgrades">
+        But Automatic Upgrades
+      </label>
+      <input id="but-automatic-upgrades" name="butAutomaticUpgrades" type="checkbox" />
+    </div>
+
+    <div>
+      <input id="sumbit" type="submit" value="Submit" />
+    </div>
+  </form>
+</div>
