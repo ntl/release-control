@@ -4,4 +4,4 @@ set -ex
 
 APP_ENV=${APP_ENV:=production}
 
-ruby --disable-gems gems/bin/rackup web/config.ru "$@"
+ruby --disable-gems gems/bin/rackup web/server/config.ru "$@"

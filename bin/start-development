@@ -7,4 +7,4 @@ APP_ENV=${APP_ENV:=production}
 export LOG_TAGS=${LOG_TAGS:=packaging,_untagged}
 export LOG_LEVEL=${LOG_LEVEL:=trace}
 
-ruby --disable-gems gems/bin/shotgun web/config.ru "$@"
+ruby --disable-gems gems/bin/shotgun web/server/config.ru "$@"

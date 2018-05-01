@@ -1,3 +1,3 @@
-require_relative './web_init'
+require_relative './init'
 
 run ReleaseControl::WebServer

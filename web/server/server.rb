@@ -1,8 +1,6 @@
 module ReleaseControl
   class WebServer < Sinatra::Base
     set :static, true
-    set :public_folder, File.join(settings.root, 'static')
-    set :views, File.join(settings.root, 'templates')
 
     helpers do
       def inflector
@@ -17,7 +15,7 @@ module ReleaseControl
       @components = Settings.get(:components)
       @architectures = Settings.get(:architectures)
 
-      erb :index
+      "{}"
     end
 
     post '/distributions' do
@@ -37,6 +35,4 @@ module ReleaseControl
       redirect '/'
     end
   end
-
-  Tilt.register(Tilt::ERBTemplate, 'html.erb')
 end
