@@ -1,5 +1,3 @@
-require 'dry/inflector'
-
 module ReleaseControl
   class WebServer < Sinatra::Base
     set :static, true
