@@ -15,7 +15,9 @@ module ReleaseControl
       @components = Settings.get(:components)
       @architectures = Settings.get(:architectures)
 
-      "{}"
+      headers['Access-Control-Allow-Origin'] = '*'
+
+      JSON.generate([{ name: 'release' }, { name: 'prerelease' }])
     end
 
     post '/distributions' do
