@@ -1,23 +1,47 @@
 module ReleaseControl
   class WebServer < Sinatra::Base
+    dependency :get_distributions, Queries::Distribution::List
+
+    attr_accessor :distributions
+    attr_accessor :components
+    attr_accessor :architectures
+
+    def configure
+      Queries::Distribution::List.configure(self)
+      Settings.set(self, strict: false)
+    end
+
+    def self.build(app)
+      app.configure
+      super
+    end
+
     set :static, true
 
     helpers do
       def inflector
-        @inflecton ||= Dry::Inflector.new
+        @inflector ||= Dry::Inflector.new
       end
     end
 
-    get '/' do
-      @configured_distributions = Queries::Distribution::List.()
+    before do
+      headers({
+        'Access-Control-Allow-Origin' => '*'
+      })
+    end
 
-      @distributions = Settings.get(:distributions)
-      @components = Settings.get(:components)
-      @architectures = Settings.get(:architectures)
+    get '/distributions' do
+      configured_distributions = get_distributions.()
 
-      headers['Access-Control-Allow-Origin'] = '*'
+      JSON.pretty_generate({
+        :list => configured_distributions,
 
-      JSON.generate([{ name: 'release' }, { name: 'prerelease' }])
+        :configure => {
+          :distributions => distributions,
+          :components => components,
+          :architectures => architectures
+        }
+      })
     end
 
     post '/distributions' do

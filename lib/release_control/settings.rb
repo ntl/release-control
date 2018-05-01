@@ -8,12 +8,12 @@ module ReleaseControl
       @instance ||= build
     end
 
-    def self.set(receiver)
-      instance.set(receiver)
+    def self.set(receiver, *namespace, **args)
+      instance.set(receiver, *namespace, **args)
     end
 
-    def self.get(setting)
-      instance.get(setting)
+    def self.get(*namespace)
+      instance.get(*namespace)
     end
   end
 end

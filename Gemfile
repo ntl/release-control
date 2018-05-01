@@ -13,4 +13,5 @@ end
 group :development do
   gem 'shotgun'
   gem 'test_bench'
+  gem 'rack-test'
 end
