@@ -54,8 +54,9 @@ module ReleaseControl
 
         def new_release(distribution)
           release = Packaging::Debian::Schemas::Release.new
-          release.components = self.components
-          release.architectures = self.architectures
+          release.suite = distribution
+          release.components = Set.new(self.components)
+          release.architectures = Set.new(self.architectures)
           release
         end
 

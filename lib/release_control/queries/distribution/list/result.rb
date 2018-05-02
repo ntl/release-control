@@ -23,29 +23,29 @@ module ReleaseControl
             end
 
             def self.raw_data(instance)
-              list = {}
+              distributions = []
 
-              instance.distributions.each do |distribution, release|
+              instance.distributions.each do |_, release|
                 data = ::Transform::Write.raw_data(release)
 
-                list[distribution] = data
+                distributions << data
               end
 
-              { :list => list }
+              { :distributions => distributions }
             end
 
             def self.instance(raw_data)
-              list = raw_data.fetch(:list)
+              distributions = raw_data.fetch(:distributions)
 
               result = Result.new
 
-              list.each do |distribution, attributes|
+              distributions.each do |data|
                 release = ::Transform::Read.instance(
-                  attributes,
+                  data,
                   Packaging::Debian::Schemas::Release
                 )
 
-                result[distribution.to_s] = release
+                result[release.suite] = release
               end
 
               result

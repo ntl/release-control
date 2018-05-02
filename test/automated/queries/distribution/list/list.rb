@@ -5,8 +5,8 @@ context "Queries" do
     context "List" do
       get_distributions = Queries::Distribution::List.new
 
-      components = Controls::Release.components
-      architectures = Controls::Release.architectures
+      components = Controls::Release.components.to_a
+      architectures = Controls::Release.architectures.to_a
 
       get_distributions.distributions = ['dist-1', 'dist-2', 'dist-3']
       get_distributions.components = components
@@ -33,6 +33,7 @@ context "Queries" do
 
       test "Initializes distributions that have not yet been configured" do
         control_release = Packaging::Debian::Schemas::Release.new
+        control_release.suite = 'dist-2'
         control_release.components = Set.new(components)
         control_release.architectures = Set.new(architectures)
 

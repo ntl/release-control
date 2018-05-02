@@ -5,7 +5,7 @@ module ReleaseControl
     dependency :get_distributions, Queries::Distribution::List
 
     def configure
-      Queries::Distribution::List.configure(Self)
+      Queries::Distribution::List.configure(self)
     end
 
     set :static, true
@@ -21,7 +21,7 @@ module ReleaseControl
         'Access-Control-Allow-Origin' => '*'
       })
 
-      content_type :json
+      content_type 'application/json'
     end
 
     get '/distributions' do

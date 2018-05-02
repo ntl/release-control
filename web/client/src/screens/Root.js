@@ -12,10 +12,10 @@ class Root extends Component {
   }
 
   getDistributions() {
-    request('http://localhost:9393/distributions', (error, response, body) => {
-      let root = JSON.parse(body)
+    request('http://192.168.1.103:9393/distributions', (error, response, body) => {
+      let responseData = JSON.parse(body)
 
-      let distributions = root.configure.distributions
+      let distributions = responseData.distributions
 
       this.setDistributions({ distributions })
     })
@@ -30,8 +30,8 @@ class Root extends Component {
       <div id="root">
         <h1>Distributions</h1>
 
-        {this.state.distributions.map((d) => (
-          <Distribution key={d} distribution={d} />
+        {this.state.distributions.map((distribution) => (
+          <Distribution key={distribution.suite} distribution={distribution} />
         ))}
       </div>
     )
@@ -40,7 +40,7 @@ class Root extends Component {
 
 const Distribution = ({distribution}) => (
   <div>
-    {distribution}
+    {distribution.suite}
   </div>
 )
 
