@@ -2,6 +2,12 @@ module ReleaseControl
   class WebServer < Sinatra::Base
     extend SinatraExtensions::Configure
 
+    dependency :get_distributions, Queries::Distribution::List
+
+    def configure
+      Queries::Distribution::List.configure(Self)
+    end
+
     set :static, true
 
     helpers do
@@ -14,18 +20,14 @@ module ReleaseControl
       headers({
         'Access-Control-Allow-Origin' => '*'
       })
+
+      content_type :json
     end
 
     get '/distributions' do
-      JSON.pretty_generate({
-        :list => [],
+      result = get_distributions.()
 
-        :configure => {
-          :distributions => [],
-          :components => [],
-          :architectures => []
-        }
-      })
+      Transform::Write.(result, :json)
     end
   end
 end
