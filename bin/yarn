@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -eu
+
+echo
+echo "Invoking yarn"
+echo "= = ="
+echo
+
+command="yarn --cwd ./web/client $@"
+
+echo "Command: $command"
+echo
+
+eval "$command"
