@@ -15,12 +15,11 @@ class App extends Component {
           <Navigation />
 
           <div style={{ marginLeft: "250px", minWidth: "550px", maxWidth: "1150px" }}>
-            <Route exact path="/" component={Screens.Packages}>
-              {/*
-              <Route path="/packages/:package" component={Package} />
-              */}
-            </Route>
-            <Route path="/distributions" component={Screens.Distributions} />
+            <Route exact path="/packages" component={Screens.Package.Index} />
+            <Route path="/packages/:package" component={Screens.Package.Show} />
+
+            <Route exact path="/distributions" component={Screens.Distribution.Index} />
+            <Route path="/distributions/:distribution" component={Screens.Distribution.Show} />
           </div>
         </div>
       </Router>

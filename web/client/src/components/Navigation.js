@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
-import { Route } from 'react-router-dom'
 import Distributions from './Navigation/Distributions'
 
 const Navigation = () => (
@@ -10,11 +9,11 @@ const Navigation = () => (
       Release Control
     </Menu.Item>
 
-    <Menu.Item as={NavLink} to="/distributions">
+    <Menu.Item exact as={NavLink} to="/distributions">
       Distributions
     </Menu.Item>
 
-    <Route path="/distributions" component={Distributions} />
+    <Distributions />
 
     <Menu.Item as={NavLink} to="/packages">
       Packages
