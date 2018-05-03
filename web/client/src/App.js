@@ -3,6 +3,8 @@ import './App.css'
 
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
+import * as UI from 'semantic-ui-react'
+
 import Navigation from './components/Navigation'
 
 import * as Screens from './screens'
@@ -14,13 +16,13 @@ class App extends Component {
         <div>
           <Navigation />
 
-          <div style={{ marginLeft: "250px", minWidth: "550px", maxWidth: "1150px" }}>
+          <UI.Container fluid style={{ padding: '30px 30px 30px 250px' }}>
             <Route exact path="/packages" component={Screens.Package.Index} />
             <Route path="/packages/:package" component={Screens.Package.Show} />
 
             <Route exact path="/distributions" component={Screens.Distribution.Index} />
             <Route path="/distributions/:distribution" component={Screens.Distribution.Show} />
-          </div>
+          </UI.Container>
         </div>
       </Router>
     )
