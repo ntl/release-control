@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import request from 'request';
+import request from 'request'
 
-class Root extends Component {
+class Distributions extends Component {
   state = {
     distributions: []
   }
@@ -12,7 +12,7 @@ class Root extends Component {
   }
 
   getDistributions() {
-    request('http://192.168.1.103:9393/distributions', (error, response, body) => {
+    request('http://127.0.0.1:9393/distributions', (error, response, body) => {
       let responseData = JSON.parse(body)
 
       let distributions = responseData.distributions
@@ -26,11 +26,13 @@ class Root extends Component {
   }
 
   render() {
+    const distributions = this.state.distributions
+
     return (
-      <div id="root">
+      <div>
         <h1>Distributions</h1>
 
-        {this.state.distributions.map((distribution) => (
+        {distributions.map((distribution) => (
           <Distribution key={distribution.suite} distribution={distribution} />
         ))}
       </div>
@@ -44,4 +46,4 @@ const Distribution = ({distribution}) => (
   </div>
 )
 
-export default Root
+export default Distributions
