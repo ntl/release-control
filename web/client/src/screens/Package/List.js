@@ -39,7 +39,7 @@ const DistributionCell = ({ component, pkg, version, recentVersions }) => {
 }
 
 const Package = ({ pkg, component }) => (
-  <UI.Table.Row className={rowClassNames(pkg.current)}>
+  <UI.Table.Row className={classNames("current", { "not": pkg.current })}>
     <UI.Table.Cell>
       { pkg.name }
     </UI.Table.Cell>
@@ -68,46 +68,46 @@ class List extends Component {
   getPackages() {
     let packages = [
       {
-        name: "some-current-component",
-        description: "Some current component description",
+        name: "some-current-service",
+        description: "Some current service description",
         current: true,
         distributions: [
           {
-            name: "some-distribution",
+            name: "pre-release",
             version: "2.2.2",
             recentVersions: ["2.2.1", "2.2.0", "2.1.2"]
           },{
-            name: "other-distribution",
+            name: "release",
             version: "2.2.2",
             recentVersions: ["2.2.1", "2.2.0", "2.1.2"]
           }
         ]
       },{
-        name: "some-component",
-        description: "Some component description",
+        name: "some-service",
+        description: "Some service description",
         current: false,
         distributions: [
           {
-            name: "some-distribution",
+            name: "pre-release",
             version: "1.1.1",
             recentVersions: ["1.1.0", "1.0.1", "1.0.0"]
           },{
-            name: "other-distribution",
+            name: "release",
             version: "1.1.0",
             recentVersions: ["1.0.1", "1.0.0"]
           }
         ]
       },{
-        name: "other-component",
-        description: "Other component description",
+        name: "other-service",
+        description: "Other service description",
         current: false,
         distributions: [
           {
-            name: "some-distribution",
+            name: "pre-release",
             version: "0.1.1",
             recentVersions: ["0.1.0", "0.0.1"]
           },{
-            name: "other-distribution"
+            name: "release"
           }
         ]
       }
@@ -130,17 +130,17 @@ class List extends Component {
           Packages (Component: {component})
         </UI.Header>
 
-        <UI.Table compact id="packages">
+        <UI.Table compact id="packages" className="package-list">
           <UI.Table.Header>
             <UI.Table.Row>
               <UI.Table.HeaderCell>
                 Package
               </UI.Table.HeaderCell>
               <UI.Table.HeaderCell>
-                Some Distribution
+                Pre-Release
               </UI.Table.HeaderCell>
               <UI.Table.HeaderCell>
-                Other Distribution
+                Release
               </UI.Table.HeaderCell>
             </UI.Table.Row>
           </UI.Table.Header>

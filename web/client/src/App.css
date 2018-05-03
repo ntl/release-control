@@ -27,6 +27,6 @@
   to { transform: rotate(360deg); }
 }
 
-#packages tr.current.not {
+.package-list tr.current.not {
   background-color: #ffd8d8;
 }
