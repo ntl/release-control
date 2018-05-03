@@ -10,18 +10,18 @@ const rowClassNames = (current) => {
   )
 }
 
-const DistributionCell = ({ pkg, version, recentVersions }) => {
+const DistributionCell = ({ component, pkg, version, recentVersions }) => {
   if(version) {
     return (
       <UI.Table.Cell>
-        <Link to="/packages/{pkg}/{version}">
+        <Link to={"/packages/" + component + "/" + pkg + "?version=" + version}>
           {version}
         </Link>
 
         <span style={{ marginLeft: "10px" }}>
           {recentVersions.map((version) => (
             <sup key={version} style={{ marginRight: "5px" }}>
-              <Link to="/packages/{name}/{version}">
+              <Link to={"/packages/" + component + "/" + pkg + "?version=" + version}>
                 ({version})
               </Link>
             </sup>
@@ -38,7 +38,7 @@ const DistributionCell = ({ pkg, version, recentVersions }) => {
   }
 }
 
-const Package = ({ pkg }) => (
+const Package = ({ pkg, component }) => (
   <UI.Table.Row className={rowClassNames(pkg.current)}>
     <UI.Table.Cell>
       { pkg.name }
@@ -48,6 +48,7 @@ const Package = ({ pkg }) => (
       <DistributionCell
         key={d.name}
         pkg={pkg.name}
+        component={component}
         version={d.version}
         recentVersions={d.recentVersions}
       />
@@ -146,7 +147,7 @@ class List extends Component {
 
           <UI.Table.Body>
             {packages.map((pkg) => (
-              <Package key={pkg.name} pkg={pkg} />
+              <Package key={pkg.name} pkg={pkg} component={component} />
             ))}
           </UI.Table.Body>
         </UI.Table>

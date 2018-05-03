@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import * as UI from 'semantic-ui-react'
 
 import request from 'request'
 
@@ -36,7 +37,9 @@ class List extends Component {
 
     return (
       <div>
-        <h1>Distributions</h1>
+        <UI.Header as="h1">
+          Distributions
+        </UI.Header>
 
         {distributions.map((distribution) => (
           <Distribution key={distribution.suite} distribution={distribution} />

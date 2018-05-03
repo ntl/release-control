@@ -1,8 +1,11 @@
 import React from 'react'
+import * as UI from 'semantic-ui-react'
 
 const Show = ({ match }) => (
   <div>
-    <h1>Package: {match.params.package}</h1>
+    <UI.Header as="h1">
+      Package: {match.params.package}
+    </UI.Header>
   </div>
 )
 

@@ -4,11 +4,17 @@ import { Menu } from 'semantic-ui-react'
 
 const Navigation = () => (
   <Menu inverted vertical>
-    <Menu.Item as={NavLink} to="/packages/some-component">
-      Some Component
+    <Menu.Item as={NavLink} to="/packages/services">
+      Services
     </Menu.Item>
-    <Menu.Item as={NavLink} to="/packages/other-component">
-      Other Component
+    <Menu.Item as={NavLink} to="/packages/view-data">
+      View Data
+    </Menu.Item>
+    <Menu.Item as={NavLink} to="/packages/frontend">
+      Front-end
+    </Menu.Item>
+    <Menu.Item as={NavLink} to="/packages/operations">
+      Operations
     </Menu.Item>
   </Menu>
 )
