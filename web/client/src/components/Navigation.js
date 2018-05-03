@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 import Distributions from './Navigation/Distributions'
+import Packages from './Navigation/Packages'
 
 const Navigation = () => (
   <Menu inverted vertical className="left fixed">
@@ -9,15 +10,17 @@ const Navigation = () => (
       Release Control
     </Menu.Item>
 
-    <Menu.Item exact as={NavLink} to="/distributions">
+    <Menu.Item as={NavLink} to="/distributions">
       Distributions
     </Menu.Item>
 
     <Distributions />
 
-    <Menu.Item as={NavLink} to="/packages">
+    <Menu.Item>
       Packages
     </Menu.Item>
+
+    <Packages />
   </Menu>
 )
 

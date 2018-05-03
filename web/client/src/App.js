@@ -17,10 +17,10 @@ class App extends Component {
           <Navigation />
 
           <UI.Container fluid style={{ padding: '30px 30px 30px 250px' }}>
-            <Route exact path="/packages" component={Screens.Package.Index} />
-            <Route path="/packages/:package" component={Screens.Package.Show} />
+            <Route exact path="/packages/:component" component={Screens.Package.List} />
+            <Route path="/packages/:component/:package" component={Screens.Package.Show} />
 
-            <Route exact path="/distributions" component={Screens.Distribution.Index} />
+            <Route exact path="/distributions" component={Screens.Distribution.List} />
             <Route path="/distributions/:distribution" component={Screens.Distribution.Show} />
           </UI.Container>
         </div>

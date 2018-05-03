@@ -20,7 +20,7 @@ const DistributionCell = ({ pkg, version, recentVersions }) => {
 
         <span style={{ marginLeft: "10px" }}>
           {recentVersions.map((version) => (
-            <sup style={{ marginRight: "5px" }}>
+            <sup key={version} style={{ marginRight: "5px" }}>
               <Link to="/packages/{name}/{version}">
                 ({version})
               </Link>
@@ -55,7 +55,7 @@ const Package = ({ pkg }) => (
   </UI.Table.Row>
 )
 
-class Index extends Component {
+class List extends Component {
   state = {
     packages: []
   }
@@ -120,12 +120,13 @@ class Index extends Component {
   }
 
   render() {
+    const component = this.props.match.params.component
     const packages = this.state.packages
 
     return (
       <div>
         <UI.Header as="h1">
-          Packages
+          Packages (Component: {component})
         </UI.Header>
 
         <UI.Table compact id="packages">
@@ -154,4 +155,4 @@ class Index extends Component {
   }
 }
 
-export default Index
+export default List

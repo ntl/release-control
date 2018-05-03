@@ -2,7 +2,13 @@ import React, { Component } from 'react'
 
 import request from 'request'
 
-class Distributions extends Component {
+const Distribution = ({distribution}) => (
+  <div>
+    {distribution.suite}
+  </div>
+)
+
+class List extends Component {
   state = {
     distributions: []
   }
@@ -40,10 +46,4 @@ class Distributions extends Component {
   }
 }
 
-const Distribution = ({distribution}) => (
-  <div>
-    {distribution.suite}
-  </div>
-)
-
-export default Distributions
+export default List
