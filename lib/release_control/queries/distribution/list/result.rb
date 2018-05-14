@@ -5,15 +5,16 @@ module ReleaseControl
         class Result
           include Schema::DataStructure
 
-          attribute :distributions, Hash, default: proc { Hash.new }
+          attribute :distributions, Array, default: proc { Array.new }
 
-          def set(distribution, release)
-            self.distributions[distribution] = release
+          def add(distribution)
+            self.distributions << distribution
           end
-          alias_method :[]=, :set
 
-          def get(distribution)
-            self.distributions[distribution]
+          def get(name)
+            self.distributions.find do |distribution|
+              distribution.name == name
+            end
           end
           alias_method :[], :get
 
@@ -25,30 +26,13 @@ module ReleaseControl
             def self.raw_data(instance)
               distributions = []
 
-              instance.distributions.each do |_, release|
-                data = ::Transform::Write.raw_data(release)
+              instance.distributions.each do |distribution|
+                raw_data = ::Transform::Write.raw_data(distribution)
 
-                distributions << data
+                distributions << distribution
               end
 
               { :distributions => distributions }
-            end
-
-            def self.instance(raw_data)
-              distributions = raw_data.fetch(:distributions)
-
-              result = Result.new
-
-              distributions.each do |data|
-                release = ::Transform::Read.instance(
-                  data,
-                  Packaging::Debian::Schemas::Release
-                )
-
-                result[release.suite] = release
-              end
-
-              result
             end
           end
         end

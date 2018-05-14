@@ -5,12 +5,13 @@ module ReleaseControl
         module List
           module Result
             def self.example
-              release = Release.example
-              alternate_release = Release::Alternate.example
+              distribution = Controls::Distribution.example
+
+              alternate_distribution = Controls::Distribution::Alternate.example
 
               result = ReleaseControl::Queries::Distribution::List::Result.new
-              result.set(release.suite, release)
-              result.set(alternate_release.suite, alternate_release)
+              result.add(distribution)
+              result.add(alternate_distribution)
               result
             end
           end

@@ -3,8 +3,8 @@ require_relative './automated_init'
 context "Settings" do
   cls = Class.new do
     setting :distributions
-    setting :components
-    setting :architectures
+    setting :component
+    setting :architecture
   end
 
   receiver = cls.new
@@ -15,11 +15,11 @@ context "Settings" do
     refute(receiver.distributions.nil?)
   end
 
-  test "Components is set" do
-    refute(receiver.components.nil?)
+  test "Component is set" do
+    refute(receiver.component.nil?)
   end
 
-  test "Architectures is set" do
-    refute(receiver.architectures.nil?)
+  test "Architecture is set" do
+    refute(receiver.architecture.nil?)
   end
 end

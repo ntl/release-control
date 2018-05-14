@@ -14,12 +14,6 @@ context "Queries" do
               raises_error?
             end
           end
-
-          test "Can be converted back to result" do
-            result = Transform::Read.(text, :json, control_result.class)
-
-            assert(result == control_result)
-          end
         end
       end
     end

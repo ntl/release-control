@@ -13,6 +13,8 @@ context "Web Server" do
 
       response_body = driver.last_response.body
 
+      puts response_body
+
       context "Response Body" do
         test "Valid JSON" do
           refute proc { JSON.parse(response_body) } do

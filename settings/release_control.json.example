@@ -1,5 +1,5 @@
 {
   "distributions": ["staging", "production"],
-  "components": ["services", "data", "frontend", "operations"],
-  "architectures": ["amd64"]
+  "component": "main",
+  "architecture": "amd64"
 }
