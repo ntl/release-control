@@ -31,6 +31,10 @@ module ReleaseControl
         packages[name] ||= Package.new(name)
       end
 
+      def package?(name)
+        packages.key?(name)
+      end
+
       class Package
         initializer :name
 

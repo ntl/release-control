@@ -22,13 +22,9 @@ module ReleaseControl
     end
 
     def add_distribution(name, &block)
-      distribution = Distribution.new
-
-      distribution.name = name
+      distribution = get_distribution(name)
 
       block.(distribution) unless block.nil?
-
-      distributions[name] = distribution
 
       distribution
     end
@@ -38,7 +34,7 @@ module ReleaseControl
     end
 
     def get_distribution(name)
-      distributions[name] ||= add_distribution(name)
+      distributions[name] ||= Distribution.build(name: name)
     end
   end
 end
