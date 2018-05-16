@@ -7,9 +7,12 @@ require 'packaging/debian/repository/s3/controls'
 
 require 'release_control/controls/time'
 
+require 'release_control/controls/architecture'
+require 'release_control/controls/component'
 require 'release_control/controls/distribution'
 
 require 'release_control/controls/package'
+require 'release_control/controls/package_index'
 require 'release_control/controls/release'
 
 require 'release_control/controls/repository'

@@ -19,6 +19,10 @@ module ReleaseControl
         versions[value] ||= Version.build(value: value)
       end
 
+      def version?(value)
+        versions.key?(value)
+      end
+
       def versions
         @versions ||= {}
       end

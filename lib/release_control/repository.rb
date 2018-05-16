@@ -21,6 +21,28 @@ module ReleaseControl
       package
     end
 
+    def package?(name, version: nil)
+      package = packages[name]
+
+      return false if package.nil?
+
+      if version.nil?
+        true
+      else
+        package.version?(version)
+      end
+    end
+
+    def get_package(name, version: nil)
+      packages[name] ||= Package.new(name)
+
+      if version.nil?
+        packages[name]
+      else
+        packages[name].get_version(version)
+      end
+    end
+
     def add_distribution(name, &block)
       distribution = get_distribution(name)
 
@@ -29,8 +51,8 @@ module ReleaseControl
       distribution
     end
 
-    def get_package(name)
-      packages[name] ||= Package.new(name)
+    def distribution?(name)
+      distributions.key?(name)
     end
 
     def get_distribution(name)
