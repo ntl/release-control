@@ -2,6 +2,8 @@ require 'pp'
 
 require 'rubygems'
 
+require 'virtual'; Virtual.activate
+
 require 'packaging/debian/package'
 require 'packaging/debian/repository/s3'
 

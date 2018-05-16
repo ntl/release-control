@@ -1,11 +1,17 @@
 module ReleaseControl
   class WebServer < Sinatra::Base
-    extend SinatraExtensions::Configure
+    include SinatraExtensions::Dependencies
 
     dependency :get_repository, Repository::Get
+    dependency :publish_package, Packaging::Debian::Repository::S3::Commands::Package::Publish
+
+    setting :component
 
     def configure
       Repository::Get.configure(self)
+      Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self)
+
+      Settings.set(self)
     end
 
     set :static, true
@@ -28,6 +34,24 @@ module ReleaseControl
       repository = get_repository.()
 
       Transform::Write.(repository, :json)
+    end
+
+    post '/packages/:deb_file' do
+      tmpdir = Dir.mktmpdir
+
+      path = File.join(tmpdir, params[:deb_file])
+
+      File.open(path, 'w') do |file|
+        file.write(request.body.read) until request.body.eof?
+      end
+
+      publish_package.(path, component: component)
+
+      201
+
+    ensure
+      File.unlink(path) if File.size?(path)
+      Dir.delete(tmpdir) if File.directory?(tmpdir)
     end
   end
 end

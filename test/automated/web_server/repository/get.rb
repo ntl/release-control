@@ -3,13 +3,17 @@ require_relative '../web_server_init'
 context "Web Server" do
   context "Repository Resource" do
     context "GET Request" do
-      driver, web_server = Controls::WebServer::Driver.example(include: :web_server)
+      agent, web_server = Controls::WebServer::Agent.example(include: :web_server)
 
       repository = Controls::Repository.example
 
       web_server.get_repository.set(repository)
 
-      response = driver.get '/repository'
+      response = agent.get '/repository'
+
+      test "Returns 200 OK" do
+        assert(response.status == 200)
+      end
 
       context "Response Body" do
         test "Valid JSON" do
