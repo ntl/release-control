@@ -2,10 +2,10 @@ module ReleaseControl
   class WebServer < Sinatra::Base
     extend SinatraExtensions::Configure
 
-    dependency :get_distributions, Queries::Distribution::List
+    dependency :get_repository, Repository::Get
 
     def configure
-      Queries::Distribution::List.configure(self)
+      Repository::Get.configure(self)
     end
 
     set :static, true
@@ -24,10 +24,10 @@ module ReleaseControl
       content_type 'application/json'
     end
 
-    get '/distributions' do
-      result = get_distributions.()
+    get '/repository' do
+      repository = get_repository.()
 
-      Transform::Write.(result, :json)
+      Transform::Write.(repository, :json)
     end
   end
 end

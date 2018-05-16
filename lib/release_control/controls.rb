@@ -17,3 +17,5 @@ require 'release_control/controls/release'
 
 require 'release_control/controls/repository'
 require 'release_control/controls/repository/json'
+
+require 'release_control/controls/web_server'
