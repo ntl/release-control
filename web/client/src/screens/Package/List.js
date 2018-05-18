@@ -1,56 +1,40 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
+import request from 'request'
 
-const rowClassNames = (current) => {
-  return classNames(
-    "current",
-    { "not": !current }
+const DistributionCell = ({ distribution, versions }) => {
+  let recentVersions = []
+
+  versions.forEach((version) => {
+    if(version.distributions.includes(distribution)) {
+      if(recentVersions.length < 3) {
+        recentVersions.push(version.value)
+      }
+    }
+  })
+
+  return (
+    <UI.Table.Cell>
+      {recentVersions.map((version) => (
+        <span className="version" key={version}>{version}</span>
+      ))}
+    </UI.Table.Cell>
   )
 }
 
-const DistributionCell = ({ component, pkg, version, recentVersions }) => {
-  if(version) {
-    return (
-      <UI.Table.Cell>
-        <Link to={"/packages/" + component + "/" + pkg + "?version=" + version}>
-          {version}
-        </Link>
-
-        <span style={{ marginLeft: "10px" }}>
-          {recentVersions.map((version) => (
-            <sup key={version} style={{ marginRight: "5px" }}>
-              <Link to={"/packages/" + component + "/" + pkg + "?version=" + version}>
-                ({version})
-              </Link>
-            </sup>
-          ))}
-        </span>
-      </UI.Table.Cell>
-    )
-  } else {
-    return (
-      <UI.Table.Cell>
-        Not present
-      </UI.Table.Cell>
-    )
-  }
-}
-
-const Package = ({ pkg, component }) => (
+const Package = ({ pkg, distributions }) => (
   <UI.Table.Row className={classNames("current", { "not": pkg.current })}>
     <UI.Table.Cell>
-      { pkg.name }
+      {pkg.name}
     </UI.Table.Cell>
 
-    {pkg.distributions.map((d) => (
+    {distributions.map((distribution) => (
       <DistributionCell
-        key={d.name}
-        pkg={pkg.name}
-        component={component}
-        version={d.version}
-        recentVersions={d.recentVersions}
+        key={distribution}
+        distribution={distribution}
+        versions={pkg.versions}
       />
     ))}
   </UI.Table.Row>
@@ -58,6 +42,7 @@ const Package = ({ pkg, component }) => (
 
 class List extends Component {
   state = {
+    distributions: [],
     packages: []
   }
 
@@ -66,68 +51,38 @@ class List extends Component {
   }
 
   getPackages() {
-    let packages = [
-      {
-        name: "some-current-service",
-        description: "Some current service description",
-        current: true,
-        distributions: [
-          {
-            name: "pre-release",
-            version: "2.2.2",
-            recentVersions: ["2.2.1", "2.2.0", "2.1.2"]
-          },{
-            name: "release",
-            version: "2.2.2",
-            recentVersions: ["2.2.1", "2.2.0", "2.1.2"]
-          }
-        ]
-      },{
-        name: "some-service",
-        description: "Some service description",
-        current: false,
-        distributions: [
-          {
-            name: "pre-release",
-            version: "1.1.1",
-            recentVersions: ["1.1.0", "1.0.1", "1.0.0"]
-          },{
-            name: "release",
-            version: "1.1.0",
-            recentVersions: ["1.0.1", "1.0.0"]
-          }
-        ]
-      },{
-        name: "other-service",
-        description: "Other service description",
-        current: false,
-        distributions: [
-          {
-            name: "pre-release",
-            version: "0.1.1",
-            recentVersions: ["0.1.0", "0.0.1"]
-          },{
-            name: "release"
-          }
-        ]
-      }
-    ]
+    request('http://192.168.1.103:9393/controls/repository', (error, response, body) => {
+      let responseData = JSON.parse(body)
 
-    this.setPackages({ packages })
+      console.log(responseData)
+
+      let distributions = responseData.distributions.map((d) => {
+        return d.name
+      })
+
+      let packages = responseData.packages
+
+      this.setDistributions(distributions)
+      this.setPackages(packages)
+    })
+  }
+
+  setDistributions(distributions) {
+    this.setState({ distributions })
   }
 
   setPackages(packages) {
-    this.setState(packages)
+    this.setState({ packages })
   }
 
   render() {
-    const component = this.props.match.params.component
     const packages = this.state.packages
+    const distributions = this.state.distributions
 
     return (
       <div>
         <UI.Header as="h1">
-          Packages (Component: {component})
+          Packages
         </UI.Header>
 
         <UI.Table compact id="packages" className="package-list">
@@ -136,18 +91,17 @@ class List extends Component {
               <UI.Table.HeaderCell>
                 Package
               </UI.Table.HeaderCell>
-              <UI.Table.HeaderCell>
-                Pre-Release
-              </UI.Table.HeaderCell>
-              <UI.Table.HeaderCell>
-                Release
-              </UI.Table.HeaderCell>
+              {distributions.map((distribution) => (
+                <UI.Table.HeaderCell key={distribution}>
+                  {distribution}
+                </UI.Table.HeaderCell>
+              ))}
             </UI.Table.Row>
           </UI.Table.Header>
 
           <UI.Table.Body>
             {packages.map((pkg) => (
-              <Package key={pkg.name} pkg={pkg} component={component} />
+              <Package key={pkg.name} pkg={pkg} distributions={distributions} />
             ))}
           </UI.Table.Body>
         </UI.Table>

@@ -19,7 +19,7 @@ class List extends Component {
   }
 
   getDistributions() {
-    request('http://127.0.0.1:9393/distributions', (error, response, body) => {
+    request('http://192.168.1.103:9393/distributions', (error, response, body) => {
       let responseData = JSON.parse(body)
 
       let distributions = responseData.distributions

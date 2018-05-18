@@ -8,8 +8,10 @@ module ReleaseControl
     setting :component
 
     def configure
+      distribution = nil
+
       Repository::Get.configure(self)
-      Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self)
+      Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self, distribution)
 
       Settings.set(self)
     end
@@ -52,6 +54,14 @@ module ReleaseControl
     ensure
       File.unlink(path) if File.size?(path)
       Dir.delete(tmpdir) if File.directory?(tmpdir)
+    end
+
+    get '/controls/repository' do
+      require 'release_control/controls'
+
+      repository = ReleaseControl::Controls::Repository.example
+
+      Transform::Write.(repository, :json)
     end
   end
 end

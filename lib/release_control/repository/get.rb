@@ -13,8 +13,10 @@ module ReleaseControl
       setting :architecture
 
       def configure
-        Packaging::Debian::Repository::S3::Release::Store.configure(self, attr_name: :release_store)
-        Packaging::Debian::Repository::S3::PackageIndex::Store.configure(self, attr_name: :package_index_store)
+        distribution = nil
+
+        Packaging::Debian::Repository::S3::Release::Store.configure(self, distribution, attr_name: :release_store)
+        Packaging::Debian::Repository::S3::PackageIndex::Store.configure(self, distribution, attr_name: :package_index_store)
 
         Settings.set(self)
       end
