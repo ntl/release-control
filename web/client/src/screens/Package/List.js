@@ -51,10 +51,10 @@ class List extends Component {
   }
 
   getPackages() {
-    request('http://192.168.1.103:9393/controls/repository', (error, response, body) => {
-      let responseData = JSON.parse(body)
+    let host = process.env['REACT_APP_SERVER_HOST']
 
-      console.log(responseData)
+    request(`http://${host}/controls/repository`, (error, response, body) => {
+      let responseData = JSON.parse(body)
 
       let distributions = responseData.distributions.map((d) => {
         return d.name

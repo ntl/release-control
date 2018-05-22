@@ -19,7 +19,9 @@ class List extends Component {
   }
 
   getDistributions() {
-    request('http://192.168.1.103:9393/distributions', (error, response, body) => {
+    let host = process.env['REACT_APP_SERVER_HOST']
+
+    request(`http://${host}/repository`, (error, response, body) => {
       let responseData = JSON.parse(body)
 
       let distributions = responseData.distributions
