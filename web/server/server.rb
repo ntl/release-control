@@ -8,10 +8,8 @@ module ReleaseControl
     setting :component
 
     def configure
-      distribution = nil
-
       Repository::Get.configure(self)
-      Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self, distribution)
+      Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self)
 
       Settings.set(self)
     end
