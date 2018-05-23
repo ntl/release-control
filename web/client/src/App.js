@@ -47,10 +47,20 @@ class App extends Component {
   }
 
   render() {
+    const repository = this.state.repository
+
+    const distributionNames = repository.distributions.map((distribution) => {
+      return distribution.name
+    })
+
+    const packageNames = repository.packages.map((pkg) => {
+      return pkg.name
+    })
+
     return (
       <Router>
         <div>
-          <Navigation />
+          <Navigation distributions={distributionNames} packages={packageNames} />
 
           <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />

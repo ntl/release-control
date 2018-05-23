@@ -2,11 +2,11 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
-const Navigation = ({ distributions }) => (
+const Navigation = ({ packages }) => (
   <Menu inverted vertical>
-    {distributions.map((distribution, index) => (
-      <Menu.Item as={NavLink} to={`/distributions/${distribution}`}>
-        {distribution}
+    {packages.map((packageName, index) => (
+      <Menu.Item as={NavLink} to={`/packages/${packageName}`}>
+        {packageName}
       </Menu.Item>
     ))}
   </Menu>
