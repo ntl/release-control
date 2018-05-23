@@ -54,7 +54,7 @@ class App extends Component {
 
           <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
-            <Route path="/packages/:package/:version" component={this.renderScreen(Screens.Package.Show)} />
+            <Route path="/packages/:packageName" component={this.renderScreen(Screens.Package.Show)} />
 
             <Route exact path="/distributions" component={this.renderScreen(Screens.Distribution.List)} />
             <Route path="/distributions/:distribution" component={this.renderScreen(Screens.Distribution.Show)} />

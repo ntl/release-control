@@ -17,9 +17,9 @@ const DistributionCell = ({ packageName, distribution, versions }) => {
   return (
     <UI.Table.Cell>
       {recentVersions.map((version, index) => (
-      <Link to={`packages/${packageName}/${version}`} className="version" key={index}>
+      <span className="version" key={index}>
         {version}
-      </Link>
+      </span>
       ))}
     </UI.Table.Cell>
   )
@@ -28,7 +28,9 @@ const DistributionCell = ({ packageName, distribution, versions }) => {
 const Package = ({ pkg, distributions }) => (
   <UI.Table.Row className={classNames("current", { "not": pkg.current })}>
     <UI.Table.Cell>
-      {pkg.name}
+      <Link to={`/packages/${pkg.name}`}>
+        {pkg.name}
+      </Link>
     </UI.Table.Cell>
 
     {distributions.map((distribution, index) => (
@@ -44,7 +46,7 @@ const Package = ({ pkg, distributions }) => (
 
 class List extends Component {
   render() {
-    let repository = this.props.repository
+    const repository = this.props.repository
 
     const packages = repository.packages || []
     const distributions = repository.distributions || []

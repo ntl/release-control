@@ -2,82 +2,38 @@ import React, { Component } from 'react'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
 
-const Release = ({ release }) => (
-  <UI.Table.Row className={classNames("current", { "not": !release.current })}>
+const Version = ({ version, distributions }) => (
+  <UI.Table.Row className={classNames("current", { "not": !version.current })}>
     <UI.Table.Cell>
-      {release.version}
+      {version.value}
     </UI.Table.Cell>
-    <UI.Table.Cell>
-      {release.distributions.includes("pre-release") ? 'Yes' : 'No'}
-    </UI.Table.Cell>
-    <UI.Table.Cell>
-      {release.distributions.includes("release") ? 'Yes' : 'No'}
-    </UI.Table.Cell>
+    {distributions.map((distribution, index) => (
+      <UI.Table.Cell key={index}>
+        {version.distributions.includes(distribution.name) ? 'Yes' : 'No'}
+      </UI.Table.Cell>
+    ))}
   </UI.Table.Row>
 )
 
 class Show extends Component {
-  state = {
-    pkg: {
-      releases: []
-    }
-  }
-
-  componentDidMount() {
-    this.getPackage()
-  }
-
-  getPackage() {
-    const name = this.props.match.params.package
-
-    let pkg = {
-      name: name,
-      description: "Some description",
-      releases: [
-        {
-          version: "1.1.1",
-          distributions: ["pre-release"],
-          current: false
-        },{
-          version: "1.1.0",
-          distributions: ["pre-release"],
-          current: false
-        },{
-          version: "1.0.1",
-          distributions: ["pre-release", "release"],
-          current: true
-        },{
-          version: "1.0.0",
-          distributions: ["pre-release", "release"],
-          current: true
-        },{
-          version: "1.0.0.pre1",
-          distributions: ["pre-release", "release"],
-          current: true
-        },{
-          version: "0.9.0",
-          distributions: ["pre-release", "release"],
-          current: true
-        }
-      ]
-    }
-
-    this.setPackage(pkg)
-  }
-
-  setPackage(pkg) {
-    this.setState({ pkg })
-  }
-
   render() {
-    const pkg = this.state.pkg
+    const repository = this.props.repository
 
-    const component = this.props.match.params.component
+    const packageName = this.props.match.params.packageName
+
+    const packages = repository.packages || []
+    const distributions = repository.distributions || []
+
+    let pkg = packages.find((pkg) => {
+      return pkg.name === packageName
+    })
+
+    let versions = pkg ? pkg.versions : []
 
     return (
       <div>
         <UI.Header as="h1">
-          Package: {pkg.name} ({component})
+          Package: {packageName}
         </UI.Header>
 
         <UI.Table compact id="package-releases" className="package-list">
@@ -86,18 +42,17 @@ class Show extends Component {
               <UI.Table.HeaderCell>
                 Version
               </UI.Table.HeaderCell>
-              <UI.Table.HeaderCell>
-                Pre-Release
-              </UI.Table.HeaderCell>
-              <UI.Table.HeaderCell>
-                Release
-              </UI.Table.HeaderCell>
+              {distributions.map((distribution, index) => (
+                <UI.Table.HeaderCell key={index}>
+                  {distribution.name}
+                </UI.Table.HeaderCell>
+              ))}
             </UI.Table.Row>
           </UI.Table.Header>
 
           <UI.Table.Body>
-            {pkg.releases.map((release) => (
-              <Release key={release.version} release={release} />
+            {versions.map((version, index) => (
+              <Version key={index} version={version} distributions={distributions} />
             ))}
           </UI.Table.Body>
         </UI.Table>
