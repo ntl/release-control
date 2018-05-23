@@ -12,6 +12,9 @@ module ReleaseControl
                   "date": "2000-01-01T00:00:00.000Z",
                   "packages": [
                     {
+                      "name": "current-package",
+                      "versions": ["2.2.2", "1.1.1"]
+                    },{
                       "name": "other-package",
                       "versions": ["1.1.1"]
                     },{
@@ -25,6 +28,9 @@ module ReleaseControl
                   "date": "2000-01-01T00:00:00.000Z",
                   "packages": [
                     {
+                      "name": "current-package",
+                      "versions": ["2.2.2", "1.1.1"]
+                    },{
                       "name": "some-package",
                       "versions": ["2.2.2", "1.1.1"]
                     }
@@ -33,6 +39,24 @@ module ReleaseControl
               ],
 
               "packages": [
+                {
+                  "name": "current-package",
+                  "versions": [
+                    {
+                      "value": "2.2.2",
+                      "section": "current-package-section",
+                      "description": "Example package (current)",
+                      "depends": "current-package-dependency",
+                      "distributions": ["other-distribution", "some-distribution"]
+                    },{
+                      "value": "1.1.1",
+                      "section": "current-package-section",
+                      "description": "Example package (current)",
+                      "depends": "current-package-dependency",
+                      "distributions": ["other-distribution", "some-distribution"]
+                    }
+                  ]
+                },
                 {
                   "name": "other-package",
                   "versions": [

@@ -27,24 +27,47 @@ const DistributionCell = ({ packageName, distribution, versions }) => {
   )
 }
 
-const Package = ({ pkg, distributions }) => (
-  <UI.Table.Row className={classNames("current", { "not": pkg.current })}>
-    <UI.Table.Cell>
-      <Link to={`/packages/${pkg.name}`}>
-        {pkg.name}
-      </Link>
-    </UI.Table.Cell>
+class Package extends Component {
+  getCurrent(pkg, distributions) {
+    return pkg.versions.every((version) => {
+      console.log(pkg.name, version.value, distributions.map((d) => { return d.name }))
 
-    {distributions.map((distribution, index) => (
-      <DistributionCell
-        key={index}
-        packageName={pkg.name}
-        distribution={distribution.name}
-        versions={pkg.versions}
-      />
-    ))}
-  </UI.Table.Row>
-)
+      return distributions.every((distribution) => {
+        let current = version.distributions.includes(distribution.name)
+
+        console.log('    ', distribution.name, version.distributions, current)
+
+        return current
+      })
+    })
+  }
+
+  render() {
+    let pkg = this.props.pkg
+    let distributions = this.props.distributions
+
+    let current = this.getCurrent(pkg, distributions)
+
+    return (
+      <UI.Table.Row className={classNames({ "current": current })}>
+        <UI.Table.Cell>
+          <Link to={`/packages/${pkg.name}`}>
+            {pkg.name}
+          </Link>
+        </UI.Table.Cell>
+
+        {distributions.map((distribution, index) => (
+          <DistributionCell
+            key={index}
+            packageName={pkg.name}
+            distribution={distribution.name}
+            versions={pkg.versions}
+          />
+        ))}
+      </UI.Table.Row>
+    )
+  }
+}
 
 class List extends Component {
   render() {

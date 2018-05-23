@@ -32,6 +32,18 @@ module ReleaseControl
           package.depends = 'other-dependency'
         end
 
+        repository.add_package('current-package', '1.1.1', ['some-distribution', 'other-distribution']) do |package|
+          package.section = 'current-package-section'
+          package.description = 'Example package (current)'
+          package.depends = 'current-package-dependency'
+        end
+
+        repository.add_package('current-package', '2.2.2', ['some-distribution', 'other-distribution']) do |package|
+          package.section = 'current-package-section'
+          package.description = 'Example package (current)'
+          package.depends = 'current-package-dependency'
+        end
+
         repository
       end
     end
