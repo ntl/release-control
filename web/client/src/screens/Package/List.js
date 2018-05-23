@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
-import request from 'request'
 
 const DistributionCell = ({ distribution, versions }) => {
   let recentVersions = []
@@ -30,10 +29,10 @@ const Package = ({ pkg, distributions }) => (
       {pkg.name}
     </UI.Table.Cell>
 
-    {distributions.map((distribution) => (
+    {distributions.map((distribution, index) => (
       <DistributionCell
-        key={distribution}
-        distribution={distribution}
+        key={index}
+        distribution={distribution.name}
         versions={pkg.versions}
       />
     ))}
@@ -41,43 +40,11 @@ const Package = ({ pkg, distributions }) => (
 )
 
 class List extends Component {
-  state = {
-    distributions: [],
-    packages: []
-  }
-
-  componentDidMount() {
-    this.getPackages()
-  }
-
-  getPackages() {
-    let host = process.env['REACT_APP_SERVER_HOST']
-
-    request(`http://${host}/controls/repository`, (error, response, body) => {
-      let responseData = JSON.parse(body)
-
-      let distributions = responseData.distributions.map((d) => {
-        return d.name
-      })
-
-      let packages = responseData.packages
-
-      this.setDistributions(distributions)
-      this.setPackages(packages)
-    })
-  }
-
-  setDistributions(distributions) {
-    this.setState({ distributions })
-  }
-
-  setPackages(packages) {
-    this.setState({ packages })
-  }
-
   render() {
-    const packages = this.state.packages
-    const distributions = this.state.distributions
+    let repository = this.props.repository
+
+    const packages = repository.packages || []
+    const distributions = repository.distributions || []
 
     return (
       <div>
@@ -91,9 +58,9 @@ class List extends Component {
               <UI.Table.HeaderCell>
                 Package
               </UI.Table.HeaderCell>
-              {distributions.map((distribution) => (
-                <UI.Table.HeaderCell key={distribution}>
-                  {distribution}
+              {distributions.map((distribution, index) => (
+                <UI.Table.HeaderCell key={index}>
+                  {distribution.name}
                 </UI.Table.HeaderCell>
               ))}
             </UI.Table.Row>

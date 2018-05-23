@@ -17,10 +17,14 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    this.getRepository()
+  }
+
   getRepository() {
     let host = process.env['REACT_APP_SERVER_HOST']
 
-    request(`http://${host}/repository`, (error, response, body) => {
+    request(`http://${host}/controls/repository`, (error, response, body) => {
       let repository = JSON.parse(body)
 
       this.setRepository(repository)
@@ -31,20 +35,29 @@ class App extends Component {
     this.setState({ repository })
   }
 
-  render() {
-    const repository = this.state.repository
+  renderScreen = (componentName) => {
+    let repository = this.state.repository
 
+    return (props) => {
+      return React.createElement(
+        componentName,
+        { repository: repository, ...props }
+      )
+    }
+  }
+
+  render() {
     return (
       <Router>
         <div>
           <Navigation />
 
           <UI.Container fluid style={{ padding: '30px 30px 30px 250px' }}>
-            <Route exact path="/packages" component={Screens.Package.List} repository={repository} />
-            <Route path="/packages/:package" component={Screens.Package.Show} repository={repository} />
+            <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
+            <Route path="/packages/:package" component={this.renderScreen(Screens.Package.Show)} />
 
-            <Route exact path="/distributions" component={Screens.Distribution.List} repository={repository} />
-            <Route path="/distributions/:distribution" component={Screens.Distribution.Show} repository={repository} />
+            <Route exact path="/distributions" component={this.renderScreen(Screens.Distribution.List)} />
+            <Route path="/distributions/:distribution" component={this.renderScreen(Screens.Distribution.Show)} />
           </UI.Container>
         </div>
       </Router>
