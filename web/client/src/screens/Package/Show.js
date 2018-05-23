@@ -24,7 +24,7 @@ class Version extends Component {
         </UI.Table.Cell>
         {distributions.map((distribution, index) => (
           <UI.Table.Cell key={index}>
-            {version.distributions.includes(distribution.name) ? 'Yes' : 'No'}
+            {version.distributions.includes(distribution.name) ? '✔' : 'Add'}
           </UI.Table.Cell>
         ))}
       </UI.Table.Row>

@@ -1,6 +1,7 @@
 #package-list td .version:not(:first-child) {
   font-size: 11px;
-  margin-left: 5px;
+  margin-left: 8px;
+  vertical-align: super
 }
 
 #package-list tr:not(.current) {
