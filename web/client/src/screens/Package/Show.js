@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
 
@@ -14,6 +15,7 @@ class Version extends Component {
   render() {
     const version = this.props.version
     const distributions = this.props.distributions
+    const packageName = this.props.packageName
 
     let current = this.getCurrent(version, distributions)
 
@@ -27,6 +29,11 @@ class Version extends Component {
             {version.distributions.includes(distribution.name) ? '✔' : 'Add'}
           </UI.Table.Cell>
         ))}
+        <UI.Table.Cell>
+          <Link to={`/packages/${packageName}/${version.value}`}>
+            View
+          </Link>
+        </UI.Table.Cell>
       </UI.Table.Row>
     )
   }
@@ -64,12 +71,19 @@ class Show extends Component {
                   {distribution.name}
                 </UI.Table.HeaderCell>
               ))}
+              <UI.Table.HeaderCell>
+              </UI.Table.HeaderCell>
             </UI.Table.Row>
           </UI.Table.Header>
 
           <UI.Table.Body>
             {versions.map((version, index) => (
-              <Version key={index} version={version} distributions={distributions} />
+              <Version
+                key={index}
+                version={version}
+                distributions={distributions}
+                packageName={packageName}
+              />
             ))}
           </UI.Table.Body>
         </UI.Table>
