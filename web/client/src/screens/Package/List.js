@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
 
-const DistributionCell = ({ distribution, versions }) => {
+const DistributionCell = ({ packageName, distribution, versions }) => {
   let recentVersions = []
 
   versions.forEach((version) => {
@@ -16,8 +16,10 @@ const DistributionCell = ({ distribution, versions }) => {
 
   return (
     <UI.Table.Cell>
-      {recentVersions.map((version) => (
-        <span className="version" key={version}>{version}</span>
+      {recentVersions.map((version, index) => (
+      <Link to={`packages/${packageName}/${version}`} className="version" key={index}>
+        {version}
+      </Link>
       ))}
     </UI.Table.Cell>
   )
@@ -32,6 +34,7 @@ const Package = ({ pkg, distributions }) => (
     {distributions.map((distribution, index) => (
       <DistributionCell
         key={index}
+        packageName={pkg.name}
         distribution={distribution.name}
         versions={pkg.versions}
       />

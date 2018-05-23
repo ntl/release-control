@@ -52,9 +52,9 @@ class App extends Component {
         <div>
           <Navigation />
 
-          <UI.Container fluid style={{ padding: '30px 30px 30px 250px' }}>
+          <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
-            <Route path="/packages/:package" component={this.renderScreen(Screens.Package.Show)} />
+            <Route path="/packages/:package/:version" component={this.renderScreen(Screens.Package.Show)} />
 
             <Route exact path="/distributions" component={this.renderScreen(Screens.Distribution.List)} />
             <Route path="/distributions/:distribution" component={this.renderScreen(Screens.Distribution.Show)} />
