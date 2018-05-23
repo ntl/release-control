@@ -2,18 +2,35 @@ import React, { Component } from 'react'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
 
-const Version = ({ version, distributions }) => (
-  <UI.Table.Row className={classNames("current", { "not": !version.current })}>
-    <UI.Table.Cell>
-      {version.value}
-    </UI.Table.Cell>
-    {distributions.map((distribution, index) => (
-      <UI.Table.Cell key={index}>
-        {version.distributions.includes(distribution.name) ? 'Yes' : 'No'}
-      </UI.Table.Cell>
-    ))}
-  </UI.Table.Row>
-)
+import './index.css'
+
+class Version extends Component {
+  getCurrent(version, distributions) {
+    return distributions.every((d) => {
+      return version.distributions.includes(d.name)
+    })
+  }
+
+  render() {
+    const version = this.props.version
+    const distributions = this.props.distributions
+
+    let current = this.getCurrent(version, distributions)
+
+    return (
+      <UI.Table.Row className={classNames({ "current": current })}>
+        <UI.Table.Cell>
+          {version.value}
+        </UI.Table.Cell>
+        {distributions.map((distribution, index) => (
+          <UI.Table.Cell key={index}>
+            {version.distributions.includes(distribution.name) ? 'Yes' : 'No'}
+          </UI.Table.Cell>
+        ))}
+      </UI.Table.Row>
+    )
+  }
+}
 
 class Show extends Component {
   render() {
@@ -36,7 +53,7 @@ class Show extends Component {
           Package: {packageName}
         </UI.Header>
 
-        <UI.Table compact id="package-releases" className="package-list">
+        <UI.Table compact id="package">
           <UI.Table.Header>
             <UI.Table.Row>
               <UI.Table.HeaderCell>

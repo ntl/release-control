@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
 
+import './index.css'
+
 const DistributionCell = ({ packageName, distribution, versions }) => {
   let recentVersions = []
 
@@ -57,7 +59,7 @@ class List extends Component {
           Packages
         </UI.Header>
 
-        <UI.Table compact id="packages" className="package-list">
+        <UI.Table compact id="package-list">
           <UI.Table.Header>
             <UI.Table.Row>
               <UI.Table.HeaderCell>

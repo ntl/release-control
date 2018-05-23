@@ -1,0 +1,12 @@
+#package-list td .version:not(:first-child) {
+  font-size: 11px;
+  margin-left: 5px;
+}
+
+#package-list tr:not(.current) {
+  background-color: #ffd8d8;
+}
+
+#package tr:not(.current) {
+  background-color: #ffd8d8;
+}
