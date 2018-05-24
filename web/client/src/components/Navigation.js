@@ -10,7 +10,7 @@ const Navigation = ({ distributions, packages }) => (
       Release Control
     </Menu.Item>
 
-    <Menu.Item exact as={NavLink} to="/distributions">
+    <Menu.Item>
       Distributions
     </Menu.Item>
 

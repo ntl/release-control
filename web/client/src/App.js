@@ -67,7 +67,6 @@ class App extends Component {
             <Route exact path="/packages/:packageName" component={this.renderScreen(Screens.Package.Show)} />
             <Route exact path="/packages/:packageName/:version" component={this.renderScreen(Screens.Package.ShowVersion)} />
 
-            <Route exact path="/distributions" component={this.renderScreen(Screens.Distribution.List)} />
             <Route path="/distributions/:distribution" component={this.renderScreen(Screens.Distribution.Show)} />
           </UI.Container>
         </div>
