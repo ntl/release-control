@@ -15,3 +15,6 @@ require 'release_control/repository/get'
 require 'release_control/repository/get/substitute'
 require 'release_control/repository/package'
 require 'release_control/repository/transform'
+
+require 'release_control/commands/release'
+require 'release_control/commands/release/substitute'
