@@ -6,7 +6,7 @@ class Show extends Component {
     const params = this.props.match.params
 
     let distribution = this.props.repository.distributions.find((d) => {
-      return d.name == params.distribution
+      return d.name === params.distribution
     })
     distribution = distribution || {}
 
