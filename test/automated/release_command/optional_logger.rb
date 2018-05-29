@@ -14,6 +14,7 @@ context "Release Command" do
       release.package_definition_root = Controls::PackageDefinition::Root.example
 
       logger = Log.build('test')
+      logger.level = :trace
       logger.device = log_device = StringIO.new
 
       deb_file = release.(source_archive, distribution, logger: logger)

@@ -19,8 +19,6 @@ class ShowVersion extends Component {
     }
     version = version || {}
 
-    console.log(version)
-
     return (
       <div>
         <UI.Header as="h1">

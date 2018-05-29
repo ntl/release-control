@@ -3,6 +3,7 @@ module ReleaseControl
     include SinatraExtensions::Dependencies
 
     dependency :get_repository, Repository::Get
+    dependency :release_package, ReleaseControl::Commands::Release
     dependency :publish_package, Packaging::Debian::Repository::S3::Commands::Package::Publish
 
     setting :component
@@ -36,21 +37,32 @@ module ReleaseControl
       Transform::Write.(repository, :json)
     end
 
-    post '/packages/:deb_file' do
+    post '/packages' do
       tmpdir = Dir.mktmpdir
 
-      path = File.join(tmpdir, params[:deb_file])
+      file_basename = params[:file][:filename]
+      file_data = params[:file][:tempfile]
+      file_content_type = params[:file][:type]
+
+      distribution = params[:distribution]
+
+      path = File.join(tmpdir, file_basename)
 
       File.open(path, 'w') do |file|
-        file.write(request.body.read) until request.body.eof?
+        file.write(file_data.read) until file_data.eof?
       end
 
-      publish_package.(path, component: component)
+      case file_content_type
+      when ContentType.debian_package
+        publish_package.(path, distribution: distribution, component: component)
+      when ContentType.source_archive
+        release_package.(path, distribution: distribution, component: component)
+      end
 
       201
 
     ensure
-      File.unlink(path) if File.size?(path)
+      File.unlink(path) if File.exist?(path)
       Dir.delete(tmpdir) if File.directory?(tmpdir)
     end
 
@@ -60,6 +72,16 @@ module ReleaseControl
       repository = ReleaseControl::Controls::Repository.example
 
       Transform::Write.(repository, :json)
+    end
+
+    module ContentType
+      def self.debian_package
+        'application/x-deb'
+      end
+
+      def self.source_archive
+        'application/gzip'
+      end
     end
   end
 end

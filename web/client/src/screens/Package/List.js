@@ -30,12 +30,8 @@ const DistributionCell = ({ packageName, distribution, versions }) => {
 class Package extends Component {
   getCurrent(pkg, distributions) {
     return pkg.versions.every((version) => {
-      console.log(pkg.name, version.value, distributions.map((d) => { return d.name }))
-
       return distributions.every((distribution) => {
         let current = version.distributions.includes(distribution.name)
-
-        console.log('    ', distribution.name, version.distributions, current)
 
         return current
       })
