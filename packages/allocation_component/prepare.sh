@@ -1,0 +1,10 @@
+SOURCE_DIRECTORY=$1
+STAGE_DIRECTORY=$2
+
+cp -a -v $SOURCE_DIRECTORY/* $STAGE_DIRECTORY
+
+pushd $STAGE_DIRECTORY
+
+./install-gems.sh
+
+popd
