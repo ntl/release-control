@@ -3,7 +3,7 @@ module ReleaseControl
     class Release
       include Log::Dependency
 
-      configure :release
+      configure :release_package
 
       setting :component
 
@@ -15,9 +15,9 @@ module ReleaseControl
       dependency :publish, Packaging::Debian::Repository::S3::Commands::Package::Publish
 
       def configure
-        Settings.set(self)
+        Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self, attr_name: :publish)
 
-        Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self, component: component)
+        Settings.set(self)
       end
 
       def self.build
@@ -46,7 +46,7 @@ module ReleaseControl
 
       module Defaults
         def self.package_definition_root
-          File.join(Dir.cwd, 'packages')
+          File.join(Dir.pwd, 'packages')
         end
       end
     end

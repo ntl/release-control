@@ -10,6 +10,7 @@ module ReleaseControl
 
     def configure
       Repository::Get.configure(self)
+      ReleaseControl::Commands::Release.configure(self)
       Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self)
 
       Settings.set(self)
