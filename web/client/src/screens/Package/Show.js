@@ -39,8 +39,22 @@ class DistributionCell extends Component {
     }))
   }
 
-  remove() {
-    console.log("Remove")
+  remove = () => {
+    let state = this.state
+
+    let requestBody = {
+      package: state.packageName,
+      version: state.version.value,
+      distribution: state.distribution.name
+    }
+
+    const host = process.env['REACT_APP_SERVER_HOST']
+
+    const uri = `http://${host}/remove-package`
+
+    request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
+      console.log(err)
+    }))
   }
 
   componentWillMount() {
