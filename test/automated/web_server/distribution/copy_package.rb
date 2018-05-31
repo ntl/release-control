@@ -12,10 +12,10 @@ context "Web Server" do
       target_distribution = Controls::Distribution::Alternate.example
 
       data = {
-        :package => package,
-        :version => version,
-        :source_distribution => source_distribution,
-        :target_distribution => target_distribution
+        'package' => package,
+        'version' => version,
+        'sourceDistribution' => source_distribution,
+        'targetDistribution' => target_distribution
       }
 
       response = agent.post "/copy-package", data

@@ -11,9 +11,9 @@ context "Web Server" do
       distribution = Controls::Distribution.example
 
       data = {
-        :package => package,
-        :version => version,
-        :distribution => distribution
+        'package' => package,
+        'version' => version,
+        'distribution' => distribution
       }
 
       response = agent.post "/remove-package", data

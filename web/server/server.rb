@@ -75,7 +75,7 @@ module ReleaseControl
 
     post '/copy-package' do
       package, version, source_distribution, target_distribution =
-        params.values_at(:package, :version, :source_distribution, :target_distribution)
+        params.values_at('package', 'version', 'sourceDistribution', 'targetDistribution')
 
       copy_package.(package, version, source_distribution, target_distribution)
 
@@ -83,7 +83,7 @@ module ReleaseControl
     end
 
     post '/remove-package' do
-      package, version, distribution = params.values_at(:package, :version, :distribution)
+      package, version, distribution = params.values_at('package', 'version', 'distribution')
 
       remove_package.(package, version, distribution)
 

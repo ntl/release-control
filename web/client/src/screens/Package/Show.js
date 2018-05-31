@@ -11,6 +11,68 @@ const TitleCase = (str) => {
   return PascalCase(str).replace(/([a-z])([A-Z])/g, "$1 $2")
 }
 
+class DistributionCell extends Component {
+  state = {
+    distribution: null,
+    packageName: null,
+    version: {
+      distributions: []
+    }
+  }
+
+  add = () => {
+    let state = this.state
+
+    let requestBody = {
+      package: state.packageName,
+      version: state.version.value,
+      sourceDistribution: 'release',
+      targetDistribution: state.distribution.name
+    }
+
+    const host = process.env['REACT_APP_SERVER_HOST']
+
+    const uri = `http://${host}/copy-package`
+
+    request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
+      console.log(err)
+    }))
+  }
+
+  remove() {
+    console.log("Remove")
+  }
+
+  componentWillMount() {
+    this.setState({
+      packageName: this.props.packageName,
+      distribution: this.props.distribution,
+      version: this.props.version
+    })
+  }
+
+  render() {
+    const distribution = this.state.distribution
+    const version = this.state.version
+
+    const added = version.distributions.includes(distribution.name)
+
+    if(added) {
+      return (
+        <UI.Table.Cell>
+          <UI.Button content='Remove' icon='minus circle' labelPosition='left' color='red' onClick={this.remove} />
+        </UI.Table.Cell>
+      )
+    } else {
+      return (
+        <UI.Table.Cell>
+          <UI.Button content='Add' icon='plus square' labelPosition='left' color='green' onClick={this.add} />
+        </UI.Table.Cell>
+      )
+    }
+  }
+}
+
 class Version extends Component {
   getCurrent(version, distributions) {
     return distributions.every((d) => {
@@ -31,9 +93,7 @@ class Version extends Component {
           {version.value}
         </UI.Table.Cell>
         {distributions.map((distribution, index) => (
-          <UI.Table.Cell key={index}>
-            {version.distributions.includes(distribution.name) ? '✔' : 'Add'}
-          </UI.Table.Cell>
+          <DistributionCell key={index} packageName={packageName} version={version} distribution={distribution} />
         ))}
         <UI.Table.Cell>
           <Link to={`/packages/${packageName}/${version.value}`}>
