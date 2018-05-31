@@ -19,5 +19,7 @@ require 'release_control/repository/transform'
 require 'release_control/commands/copy_package'
 require 'release_control/commands/copy_package/substitute'
 
+require 'release_control/commands/remove_package'
+
 require 'release_control/commands/release'
 require 'release_control/commands/release/substitute'
