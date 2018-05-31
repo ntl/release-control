@@ -1,5 +1,5 @@
 Section: services
 Priority: optional
 Architecture: amd64
-Depends: postgresql-client libpq-dev
+Depends: postgresql-client, libpq-dev
 Maintainer: BTC Labs <development@btcmedia.org>
