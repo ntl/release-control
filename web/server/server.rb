@@ -3,14 +3,20 @@ module ReleaseControl
     include SinatraExtensions::Dependencies
 
     dependency :get_repository, Repository::Get
-    dependency :release_package, ReleaseControl::Commands::Release
+
+    dependency :copy_package, Commands::CopyPackage
+    dependency :remove_package, Commands::RemovePackage
+    dependency :release_package, Commands::Release
     dependency :publish_package, Packaging::Debian::Repository::S3::Commands::Package::Publish
 
     setting :component
 
     def configure
       Repository::Get.configure(self)
-      ReleaseControl::Commands::Release.configure(self)
+
+      Commands::CopyPackage.configure(self)
+      Commands::RemovePackage.configure(self)
+      Commands::Release.configure(self)
       Packaging::Debian::Repository::S3::Commands::Package::Publish.configure(self)
 
       Settings.set(self)
@@ -65,6 +71,23 @@ module ReleaseControl
     ensure
       File.unlink(path) if File.exist?(path)
       Dir.delete(tmpdir) if File.directory?(tmpdir)
+    end
+
+    post '/copy-package' do
+      package, version, source_distribution, target_distribution =
+        params.values_at(:package, :version, :source_distribution, :target_distribution)
+
+      copy_package.(package, version, source_distribution, target_distribution)
+
+      201
+    end
+
+    post '/remove-package' do
+      package, version, distribution = params.values_at(:package, :version, :distribution)
+
+      remove_package.(package, version, distribution)
+
+      201
     end
 
     get '/controls/repository' do
