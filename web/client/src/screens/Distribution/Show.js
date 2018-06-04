@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
+
 import * as UI from 'semantic-ui-react'
+
+import UploadPackage from '../../components/Package/Upload'
 
 class Show extends Component {
   render() {
     const params = this.props.match.params
 
-    let distribution = this.props.repository.distributions.find((d) => {
+    const distributions = this.props.repository.distributions
+
+    let distribution = distributions.find((d) => {
       return d.name === params.distribution
     })
     distribution = distribution || {}
@@ -64,6 +69,13 @@ class Show extends Component {
             </UI.Table.Row>
           </UI.Table.Body>
         </UI.Table>
+
+        <UI.Segment>
+          <UploadPackage
+           key={distribution.name}
+           selectedDistribution={distribution}
+           distributions={distributions} />
+        </UI.Segment>
       </div>
     )
   }
