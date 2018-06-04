@@ -31,7 +31,7 @@ class App extends Component {
     })
   }
 
-  setRepository(repository) {
+  setRepository = (repository) => {
     this.setState({ repository })
   }
 
@@ -60,7 +60,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navigation distributions={distributionNames} packages={packageNames} />
+          <Navigation distributions={distributionNames} packages={packageNames} setRepository={this.setRepository} />
 
           <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
