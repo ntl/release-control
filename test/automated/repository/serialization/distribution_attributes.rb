@@ -30,7 +30,9 @@ context "Repository" do
                 "acquireByHash": false,
                 "signedBy": "AAAA BBBB CCCC DDDD, 0000 1111 2222 3333"
               }
-            ]
+            ],
+
+            "packages": []
           }
         JSON
       end

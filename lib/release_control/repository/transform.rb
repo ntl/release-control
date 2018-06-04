@@ -75,7 +75,7 @@ module ReleaseControl
           { :name => package.name, :versions => versions }
         end
 
-        data[:packages] = packages unless packages.empty?
+        data[:packages] = packages
 
         data
       end
