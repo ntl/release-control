@@ -21,10 +21,11 @@ class App extends Component {
     this.getRepository()
   }
 
-  getRepository() {
+  getRepository = () => {
     let host = process.env['REACT_APP_SERVER_HOST']
+    let uri = `http://${host}/repository`
 
-    request(`http://${host}/controls/repository`, (error, response, body) => {
+    request(uri, (error, response, body) => {
       let repository = JSON.parse(body)
 
       this.setRepository(repository)
@@ -60,7 +61,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navigation distributions={distributionNames} packages={packageNames} setRepository={this.setRepository} />
+          <Navigation distributions={distributionNames} packages={packageNames} getRepository={this.getRepository} />
 
           <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
