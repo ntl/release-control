@@ -26,6 +26,11 @@ module ReleaseControl
         instance
       end
 
+      def self.call(*args, logger: nil)
+        instance = build
+        instance.(*args, logger: logger)
+      end
+
       def call(source_archive, distribution, logger: nil)
         logger ||= self.logger
 
