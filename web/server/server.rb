@@ -63,7 +63,7 @@ module ReleaseControl
       when ContentType.debian_package
         publish_package.(path, distribution: distribution, component: component)
       when ContentType.source_archive
-        release_package.(path, distribution: distribution, component: component)
+        release_package.(path, distribution)
       end
 
       201

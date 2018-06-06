@@ -35,15 +35,11 @@ context "Web Server" do
         end
 
         test "Distribution" do
-          released = release_package.released? do |dist|
+          released = release_package.released? do |_, dist|
             dist == distribution
           end
-        end
 
-        test "Component" do
-          released = release_package.released? do |_, comp|
-            comp == component
-          end
+          assert(released)
         end
       end
     end
