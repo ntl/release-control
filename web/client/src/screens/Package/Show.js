@@ -26,7 +26,7 @@ class DistributionCell extends Component {
     let requestBody = {
       package: state.packageName,
       version: state.version.value,
-      sourceDistribution: 'release',
+      sourceDistribution: 'pre-release',
       targetDistribution: state.distribution.name
     }
 
