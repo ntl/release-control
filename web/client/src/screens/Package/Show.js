@@ -42,7 +42,7 @@ class DistributionCell extends Component {
         return
       }
 
-      state.getRepository()
+      state.refreshRepository()
     }))
   }
 
@@ -65,7 +65,7 @@ class DistributionCell extends Component {
         return
       }
 
-      state.getRepository()
+      state.refreshRepository()
     }))
   }
 
@@ -74,7 +74,7 @@ class DistributionCell extends Component {
       packageName: this.props.packageName,
       distribution: this.props.distribution,
       version: this.props.version,
-      getRepository: this.props.getRepository
+      refreshRepository: this.props.refreshRepository
     })
   }
 
@@ -112,7 +112,7 @@ class Version extends Component {
     const distributions = this.props.distributions
     const packageName = this.props.packageName
 
-    const getRepository = this.props.getRepository
+    const refreshRepository = this.props.refreshRepository
 
     let current = this.getCurrent(version, distributions)
 
@@ -127,7 +127,7 @@ class Version extends Component {
            packageName={packageName}
            version={version}
            distribution={distribution}
-           getRepository={getRepository}
+           refreshRepository={refreshRepository}
           />
         ))}
         <UI.Table.Cell>
@@ -146,7 +146,7 @@ class Show extends Component {
 
     const packageName = this.props.match.params.packageName
 
-    const getRepository = this.props.getRepository
+    const refreshRepository = this.props.refreshRepository
 
     const packages = repository.packages || []
     const distributions = repository.distributions || []
@@ -191,7 +191,7 @@ class Show extends Component {
                 distribution='pre-release'
                 distributions={distributions}
                 packageName={packageName}
-                getRepository={getRepository}
+                refreshRepository={refreshRepository}
               />
             ))}
           </UI.Table.Body>

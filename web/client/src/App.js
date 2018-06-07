@@ -18,10 +18,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getRepository()
+    this.refreshRepository()
   }
 
-  getRepository = () => {
+  refreshRepository = () => {
     let host = process.env['REACT_APP_SERVER_HOST']
     let uri = `http://${host}/repository`
 
@@ -36,7 +36,7 @@ class App extends Component {
     this.setState({ repository })
   }
 
-  renderScreen = (componentName, getRepository) => {
+  renderScreen = (componentName, refreshRepository) => {
     let repository = this.state.repository
 
     return (props) => {
@@ -44,7 +44,7 @@ class App extends Component {
         componentName,
         {
           repository: repository,
-          getRepository: getRepository,
+          refreshRepository: refreshRepository,
           ...props
         }
       )
@@ -62,16 +62,16 @@ class App extends Component {
       return pkg.name
     })
 
-    const getRepository = this.getRepository
+    const refreshRepository = this.refreshRepository
 
     return (
       <Router>
         <div>
-          <Navigation distributions={distributionNames} packages={packageNames} getRepository={getRepository} />
+          <Navigation distributions={distributionNames} packages={packageNames} refreshRepository={refreshRepository} />
 
           <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
-            <Route exact path="/packages/:packageName" component={this.renderScreen(Screens.Package.Show, getRepository)} />
+            <Route exact path="/packages/:packageName" component={this.renderScreen(Screens.Package.Show, refreshRepository)} />
             <Route exact path="/packages/:packageName/:version" component={this.renderScreen(Screens.Package.ShowVersion)} />
 
             <Route path="/distributions/:distribution" component={this.renderScreen(Screens.Distribution.Show)} />
