@@ -86,8 +86,8 @@ class UploadPackage extends Component {
         }
       }, ((err, httpResponse) => {
         if(err) {
-          console.log(err)
           this.setState({ errorMessage: "Generic upload failure" })
+
           return
         }
 
