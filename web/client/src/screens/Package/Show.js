@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import * as UI from 'semantic-ui-react'
-import classNames from 'classnames'
-import PascalCase from 'pascalcase'
 import request from 'request'
 
-import './index.css'
+import * as UI from 'semantic-ui-react'
+import classNames from 'classnames'
 
-const TitleCase = (str) => {
-  return PascalCase(str).replace(/([a-z])([A-Z])/g, "$1 $2")
-}
+import UploadPackage from '../../components/Package/Upload'
+
+import './index.css'
 
 class DistributionCell extends Component {
   state = {
@@ -23,10 +21,14 @@ class DistributionCell extends Component {
   add = () => {
     let state = this.state
 
+    let sourceDistribution = state.version.distributions.find((d) => {
+      return d.name !== state.distribution.name
+    })
+
     let requestBody = {
       package: state.packageName,
       version: state.version.value,
-      sourceDistribution: 'pre-release',
+      sourceDistribution: sourceDistribution,
       targetDistribution: state.distribution.name
     }
 
@@ -35,7 +37,7 @@ class DistributionCell extends Component {
     const uri = `http://${host}/copy-package`
 
     request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
-      console.log(err)
+      //console.log(err)
     }))
   }
 
@@ -53,7 +55,7 @@ class DistributionCell extends Component {
     const uri = `http://${host}/remove-package`
 
     request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
-      console.log(err)
+      //console.log(err)
     }))
   }
 
@@ -120,78 +122,6 @@ class Version extends Component {
 }
 
 class Show extends Component {
-  state = {
-    file: null,
-    distribution: null
-  }
-
-  submit = (e) => {
-    e.preventDefault()
-
-    const form = e.target
-    const actionURL = new URL(form.action)
-    const action = actionURL.pathname.replace(/^\//, '')
-
-    const host = process.env['REACT_APP_SERVER_HOST']
-
-    const uri = `http://${host}/${action}`
-
-    const { file, distribution } = this.state
-
-    const fileReader = new window.FileReader()
-
-    fileReader.onload = (e) => {
-      let fileData = e.target.result
-
-      request({
-        method: 'POST',
-        uri: uri,
-        headers: { 'Content-Type': 'multipart/form-data' },
-        multipart: {
-          chunked: false,
-          data: [
-            {
-              'Content-Disposition': 'form-data; name="distribution"',
-              body: distribution
-            },{
-              'Content-Disposition': `form-data; name="file"; filename="${file.name}"`,
-              'Content-Type': file.type,
-              'Content-Length': file.size,
-              body: fileData
-            }
-          ]
-        }
-      }, ((err, httpResponse) => {
-        console.log(err)
-        console.log(httpResponse)
-      }))
-    }
-
-    fileReader.readAsArrayBuffer(file)
-  }
-
-  fileSelected = (e) => {
-    const fieldName = e.target.name
-    const file = e.target.files[0]
-
-    const state = this.state
-
-    state[fieldName] = file
-
-    this.setState(state)
-  }
-
-  distributionSelected = (e) => {
-    const fieldName = e.target.name
-    const value = e.target.value
-
-    const state = this.state
-
-    state[fieldName] = value
-
-    this.setState(state)
-  }
-
   render() {
     const repository = this.props.repository
 
@@ -213,20 +143,7 @@ class Show extends Component {
         </UI.Header>
 
         <UI.Segment inverted>
-          <UI.Form inverted action="/packages" size="small" onSubmit={this.submit}>
-            <UI.Form.Group inline>
-              <UI.Form.Field required onChange={this.fileSelected} label="Upload" name="file" control="input" type="file" />
-              <UI.Form.Field required onChange={this.distributionSelected} label="Distribution" name="distribution" control="select">
-                {distributions.map((distribution, index) => (
-                  <option key={index} value={distribution.name}>
-                    {TitleCase(distribution.name)}
-                  </option>
-                ))}
-              </UI.Form.Field>
-            </UI.Form.Group>
-
-            <button type="submit">Submit</button>
-          </UI.Form>
+          <UploadPackage inverted  distributions={distributions} />
         </UI.Segment>
 
         <UI.Table compact id="package">
@@ -250,6 +167,7 @@ class Show extends Component {
               <Version
                 key={index}
                 version={version}
+                distribution='pre-release'
                 distributions={distributions}
                 packageName={packageName}
               />

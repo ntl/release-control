@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
+import request from 'request'
 
 import * as UI from 'semantic-ui-react'
 
 import PascalCase from 'pascalcase'
-import request from 'request'
 
 const TitleCase = (str) => {
   return PascalCase(str).replace(/([a-z])([A-Z])/g, "$1 $2")
@@ -32,19 +32,26 @@ class ErrorMessage extends Component {
 class UploadPackage extends Component {
   state = {
     distribution: null,
-    distributions: []
+    distributions: [],
+    inverted: false
   }
 
   componentWillMount = () => {
     let distribution = null
+    let inverted = false
 
     if(this.props.selectedDistribution) {
       distribution = this.props.selectedDistribution.name
     }
 
+    if(this.props.inverted) {
+      inverted = true
+    }
+
     this.setState({
       distribution: distribution,
-      distributions: this.props.distributions
+      distributions: this.props.distributions,
+      inverted: inverted
     })
   }
 
@@ -122,8 +129,10 @@ class UploadPackage extends Component {
 
     const errorMessage = this.state.errorMessage
 
+    const inverted = this.state.inverted
+
     return (
-      <UI.Form action="/packages" size="small" onSubmit={this.submit}>
+      <UI.Form inverted={inverted} action="/packages" size="small" onSubmit={this.submit}>
         <ErrorMessage text={errorMessage} />
 
         <UI.Form.Group inline>
