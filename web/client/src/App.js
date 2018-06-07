@@ -28,12 +28,16 @@ class App extends Component {
     request(uri, (error, response, body) => {
       let repository = JSON.parse(body)
 
-      this.setRepository(repository)
+      let lastRefreshTimeRaw = new Date()
+
+      let lastRefreshTime = lastRefreshTimeRaw.toLocaleString()
+
+      this.setRepository(repository, lastRefreshTime)
     })
   }
 
-  setRepository = (repository) => {
-    this.setState({ repository })
+  setRepository = (repository, lastRefreshTime) => {
+    this.setState({ repository, lastRefreshTime })
   }
 
   renderScreen = (componentName, refreshRepository) => {
@@ -64,10 +68,17 @@ class App extends Component {
 
     const refreshRepository = this.refreshRepository
 
+    const lastRefreshTime = this.state.lastRefreshTime
+
     return (
       <Router>
         <div>
-          <Navigation distributions={distributionNames} packages={packageNames} refreshRepository={refreshRepository} />
+          <Navigation
+           distributions={distributionNames}
+           packages={packageNames}
+           refreshRepository={refreshRepository}
+           lastRefreshTime={lastRefreshTime}
+          />
 
           <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List, refreshRepository)} />

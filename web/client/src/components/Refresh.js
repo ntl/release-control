@@ -4,15 +4,21 @@ import * as UI from 'semantic-ui-react'
 
 class Refresh extends Component {
   render() {
-    const lastSyncTime = this.props.lastSyncTime
+    const lastRefreshTime = this.props.lastRefreshTime
 
-    const getRepository = this.props.getRepository
+    const refreshRepository = this.props.refreshRepository
 
     return (
       <UI.Segment inverted>
-        Last synced: <small>{lastSyncTime}</small>
+        Last refreshed: <br />
+        <small>{lastRefreshTime}</small>
 
-        <UI.Button content='Refresh' icon='refresh' labelPosition='left' onClick={getRepository} />
+        <UI.Button
+         content='Refresh'
+         icon='refresh'
+         labelPosition='left'
+         onClick={refreshRepository}
+        />
       </UI.Segment>
     )
   }

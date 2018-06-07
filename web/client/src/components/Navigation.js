@@ -5,7 +5,7 @@ import Refresh from './Refresh'
 import Distributions from './Navigation/Distributions'
 import Packages from './Navigation/Packages'
 
-const Navigation = ({ distributions, packages, refreshRepository }) => (
+const Navigation = ({ distributions, packages, lastRefreshTime, refreshRepository }) => (
   <Menu inverted vertical className="left fixed">
     <Menu.Item header as="h3">
       Release Control
@@ -23,7 +23,7 @@ const Navigation = ({ distributions, packages, refreshRepository }) => (
 
     <Packages packages={packages} />
 
-    <Refresh lastSyncTime='2000-01-01T00:00:00.000Z' refreshRepository={refreshRepository} />
+    <Refresh lastRefreshTime={lastRefreshTime} refreshRepository={refreshRepository} />
   </Menu>
 )
 
