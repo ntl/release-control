@@ -70,8 +70,9 @@ class Show extends Component {
           </UI.Table.Body>
         </UI.Table>
 
-        <UI.Segment>
+        <UI.Segment inverted>
           <UploadPackage
+           inverted
            key={distribution.name}
            selectedDistribution={distribution}
            distributions={distributions} />

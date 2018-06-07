@@ -36,13 +36,17 @@ class App extends Component {
     this.setState({ repository })
   }
 
-  renderScreen = (componentName) => {
+  renderScreen = (componentName, getRepository) => {
     let repository = this.state.repository
 
     return (props) => {
       return React.createElement(
         componentName,
-        { repository: repository, ...props }
+        {
+          repository: repository,
+          getRepository: getRepository,
+          ...props
+        }
       )
     }
   }
@@ -58,14 +62,16 @@ class App extends Component {
       return pkg.name
     })
 
+    const getRepository = this.getRepository
+
     return (
       <Router>
         <div>
-          <Navigation distributions={distributionNames} packages={packageNames} getRepository={this.getRepository} />
+          <Navigation distributions={distributionNames} packages={packageNames} getRepository={getRepository} />
 
           <UI.Container fluid id="screen">
             <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
-            <Route exact path="/packages/:packageName" component={this.renderScreen(Screens.Package.Show)} />
+            <Route exact path="/packages/:packageName" component={this.renderScreen(Screens.Package.Show, getRepository)} />
             <Route exact path="/packages/:packageName/:version" component={this.renderScreen(Screens.Package.ShowVersion)} />
 
             <Route path="/distributions/:distribution" component={this.renderScreen(Screens.Distribution.Show)} />

@@ -37,7 +37,12 @@ class DistributionCell extends Component {
     const uri = `http://${host}/copy-package`
 
     request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
-      //console.log(err)
+      if(err) {
+        alert("Request failed")
+        return
+      }
+
+      state.getRepository()
     }))
   }
 
@@ -55,7 +60,12 @@ class DistributionCell extends Component {
     const uri = `http://${host}/remove-package`
 
     request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
-      //console.log(err)
+      if(err) {
+        alert("Request failed")
+        return
+      }
+
+      state.getRepository()
     }))
   }
 
@@ -63,7 +73,8 @@ class DistributionCell extends Component {
     this.setState({
       packageName: this.props.packageName,
       distribution: this.props.distribution,
-      version: this.props.version
+      version: this.props.version,
+      getRepository: this.props.getRepository
     })
   }
 
@@ -101,6 +112,8 @@ class Version extends Component {
     const distributions = this.props.distributions
     const packageName = this.props.packageName
 
+    const getRepository = this.props.getRepository
+
     let current = this.getCurrent(version, distributions)
 
     return (
@@ -109,7 +122,13 @@ class Version extends Component {
           {version.value}
         </UI.Table.Cell>
         {distributions.map((distribution, index) => (
-          <DistributionCell key={index} packageName={packageName} version={version} distribution={distribution} />
+          <DistributionCell
+           key={index}
+           packageName={packageName}
+           version={version}
+           distribution={distribution}
+           getRepository={getRepository}
+          />
         ))}
         <UI.Table.Cell>
           <Link to={`/packages/${packageName}/${version.value}`}>
@@ -126,6 +145,8 @@ class Show extends Component {
     const repository = this.props.repository
 
     const packageName = this.props.match.params.packageName
+
+    const getRepository = this.props.getRepository
 
     const packages = repository.packages || []
     const distributions = repository.distributions || []
@@ -170,6 +191,7 @@ class Show extends Component {
                 distribution='pre-release'
                 distributions={distributions}
                 packageName={packageName}
+                getRepository={getRepository}
               />
             ))}
           </UI.Table.Body>
