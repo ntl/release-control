@@ -70,7 +70,7 @@ class App extends Component {
           <Navigation distributions={distributionNames} packages={packageNames} refreshRepository={refreshRepository} />
 
           <UI.Container fluid id="screen">
-            <Route exact path="/packages" component={this.renderScreen(Screens.Package.List)} />
+            <Route exact path="/packages" component={this.renderScreen(Screens.Package.List, refreshRepository)} />
             <Route exact path="/packages/:packageName" component={this.renderScreen(Screens.Package.Show, refreshRepository)} />
             <Route exact path="/packages/:packageName/:version" component={this.renderScreen(Screens.Package.ShowVersion)} />
 

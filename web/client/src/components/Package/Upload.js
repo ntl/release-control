@@ -37,11 +37,18 @@ class UploadPackage extends Component {
   }
 
   componentWillMount = () => {
-    let distribution = null
+    let distributions = this.props.distributions
+
     let inverted = false
 
+    let refreshRepository = this.props.refreshRepository
+
+    let selectedDistribution = null
+
     if(this.props.selectedDistribution) {
-      distribution = this.props.selectedDistribution.name
+      selectedDistribution = this.props.selectedDistribution.name
+    } else if(distributions.length > 0) {
+      selectedDistribution = distributions[0].name
     }
 
     if(this.props.inverted) {
@@ -49,9 +56,10 @@ class UploadPackage extends Component {
     }
 
     this.setState({
-      distribution: distribution,
-      distributions: this.props.distributions,
-      inverted: inverted
+      distribution: selectedDistribution,
+      distributions: distributions,
+      inverted: inverted,
+      refreshRepository: refreshRepository
     })
   }
 
@@ -66,7 +74,7 @@ class UploadPackage extends Component {
 
     const uri = `http://${host}/${action}`
 
-    const { file, distribution } = this.state
+    const { file, distribution, refreshRepository } = this.state
 
     const fileReader = new window.FileReader()
 
@@ -98,7 +106,7 @@ class UploadPackage extends Component {
           return
         }
 
-        console.log(httpResponse)
+        refreshRepository()
       }))
     }
 

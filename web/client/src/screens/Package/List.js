@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
 
+import UploadPackage from '../../components/Package/Upload'
+
 import './index.css'
 
 const DistributionCell = ({ packageName, distribution, versions }) => {
@@ -69,6 +71,8 @@ class List extends Component {
   render() {
     const repository = this.props.repository
 
+    const refreshRepository = this.props.refreshRepository
+
     const packages = repository.packages || []
     const distributions = repository.distributions || []
 
@@ -77,6 +81,10 @@ class List extends Component {
         <UI.Header as="h1">
           Packages
         </UI.Header>
+
+        <UI.Segment inverted>
+          <UploadPackage inverted distributions={distributions} refreshRepository={refreshRepository} />
+        </UI.Segment>
 
         <UI.Table compact id="package-list">
           <UI.Table.Header>

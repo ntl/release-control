@@ -5,8 +5,6 @@ import request from 'request'
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
 
-import UploadPackage from '../../components/Package/Upload'
-
 import './index.css'
 
 class DistributionCell extends Component {
@@ -162,10 +160,6 @@ class Show extends Component {
         <UI.Header as="h1">
           Package: {packageName}
         </UI.Header>
-
-        <UI.Segment inverted>
-          <UploadPackage inverted  distributions={distributions} />
-        </UI.Segment>
 
         <UI.Table compact id="package">
           <UI.Table.Header>
