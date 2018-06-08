@@ -2,6 +2,7 @@
 /Gemfile.lock
 /*.gem
 /gems
+/*.tar.gz
 /settings
 /tmp
 /test/package/installed

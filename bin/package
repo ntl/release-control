@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+set -eu
+
+unset POSTURE
+
+destinationDir=${1:-.}
+
+echo
+echo "Building package (Directory: $destinationDir)"
+echo "= = ="
+echo
+
+packageName=${PACKAGE_NAME:=release-control}
+
+packageVersion=${PACKAGE_VERSION:=}
+if [ -z $packageVersion ]; then
+  echo "PACKAGE_VERSION environment variable must be set, aborting"
+  echo
+  exit 1
+fi
+
+echo "Package Name: $packageName"
+echo "Package Version: $packageVersion"
+
+./install-gems.sh
+
+echo
+echo "Staging package"
+echo "= = ="
+echo
+
+packageRoot=${PACKAGE_ROOT:=tmp/packages}
+
+rm -rf $packageRoot/*
+
+stageDir=$packageRoot/$packageName-$packageVersion
+mkdir -p $stageDir
+
+cp -va \
+  lib \
+  bin \
+  init.rb load_path.rb \
+  install-gems.sh \
+  Gemfile \
+  Gemfile.lock \
+  $stageDir
+
+mkdir -p $stageDir/web/{client,server}
+
+cp -va \
+  web/server/* \
+  $stageDir/web/server/
+
+cp -va \
+  web/client/yarn.lock \
+  web/client/package.json \
+  web/client/public \
+  web/client/src \
+  $stageDir/web/client/
+
+mkdir $stageDir/settings
+
+cp -va \
+  settings/*.example \
+  $stageDir/settings/
+
+echo
+echo "Creating package"
+echo "= = ="
+echo
+
+tar \
+  -C tmp/packages \
+  -v \
+  -cz \
+  -f $destinationDir/$packageName-$packageVersion.tar.gz \
+  $packageName-$packageVersion
+
+echo "- - -"
+echo "(done)"
+echo
