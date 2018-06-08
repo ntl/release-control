@@ -65,6 +65,10 @@ cp -va \
   settings/*.example \
   $stageDir/settings/
 
+chmod -v 755 \
+  $stageDir/install-gems.sh \
+  $stageDir/bin/*
+
 echo
 echo "Creating package"
 echo "= = ="

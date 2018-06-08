@@ -17,6 +17,8 @@ cmd="bundle install --standalone --path=./gems --binstubs=gems/bin"
 
 if [ operational == "$posture" ]; then
   cmd="$cmd --without=development"
+else
+  cmd="$cmd --with=development"
 fi
 
 echo $cmd
