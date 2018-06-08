@@ -23,6 +23,7 @@ module ReleaseControl
     end
 
     set :static, true
+    set :public_folder, File.expand_path('../client/build', __dir__)
 
     helpers do
       def inflector
@@ -36,6 +37,14 @@ module ReleaseControl
       })
 
       content_type 'application/json'
+    end
+
+    get '/' do
+      index_html = File.join(settings.public_folder, 'index.html')
+
+      content_type 'text/html'
+
+      send_file index_html
     end
 
     get '/repository' do
