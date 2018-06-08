@@ -62,11 +62,22 @@ module ReleaseControl
       case file_content_type
       when ContentType.debian_package
         publish_package.(path, distribution: distribution, component: component)
-      when ContentType.source_archive
-        release_package.(path, distribution)
-      end
 
-      201
+        return 201
+      when ContentType.source_archive
+        log_device = StringIO.new
+
+        logger = Log.build('packaging')
+        logger.device = log_device
+
+        release_package.(path, distribution, logger: logger)
+
+        log_device.rewind
+
+        content_type 'text/plain'
+
+        return [201, log_device]
+      end
 
     ensure
       File.unlink(path) if File.exist?(path)
