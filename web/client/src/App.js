@@ -26,7 +26,7 @@ class App extends Component {
   refreshRepository = () => {
     const uri = URI('/repository')
 
-    request(uri, (error, response, body) => {
+    request(uri, { 'Content-Type': 'application/json' }, (error, response, body) => {
       const repository = JSON.parse(body)
 
       const lastRefreshTimeRaw = new Date()

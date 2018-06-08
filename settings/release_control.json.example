@@ -1,5 +1,8 @@
 {
   "distributions": ["staging", "production"],
   "component": "main",
-  "architecture": "amd64"
+  "architecture": "amd64",
+
+  "httpUsername": "admin",
+  "httpPassword": "changeit"
 }

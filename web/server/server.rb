@@ -22,8 +22,7 @@ module ReleaseControl
       Settings.set(self)
     end
 
-    set :static, true
-    set :public_folder, File.expand_path('../client/build', __dir__)
+    set :static, false
 
     helpers do
       def inflector
@@ -36,15 +35,9 @@ module ReleaseControl
         'Access-Control-Allow-Origin' => '*'
       })
 
+      return 406 unless request.accept?(ContentType.json)
+
       content_type 'application/json'
-    end
-
-    get '/' do
-      index_html = File.join(settings.public_folder, 'index.html')
-
-      content_type 'text/html'
-
-      send_file index_html
     end
 
     get '/repository' do
@@ -116,16 +109,6 @@ module ReleaseControl
       repository = ReleaseControl::Controls::Repository.example
 
       Transform::Write.(repository, :json)
-    end
-
-    module ContentType
-      def self.debian_package
-        'application/x-deb'
-      end
-
-      def self.source_archive
-        'application/gzip'
-      end
     end
   end
 end

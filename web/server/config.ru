@@ -1,3 +1,4 @@
 require_relative './init'
 
-run ReleaseControl::WebServer
+use ReleaseControl::WebServer
+run ReleaseControl::WebServer::Static
