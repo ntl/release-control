@@ -13,7 +13,7 @@ module ReleaseControl
         username == http_username && password == http_password
       end
 
-      get '/' do
+      get '*' do
         index_html = File.join(settings.public_folder, 'index.html')
 
         content_type 'text/html'
