@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+
+import URI from '../../Server/URI'
 import request from 'request'
 
 import * as UI from 'semantic-ui-react'
@@ -70,9 +72,7 @@ class UploadPackage extends Component {
     const actionURL = new URL(form.action)
     const action = actionURL.pathname.replace(/^\//, '')
 
-    const host = process.env['REACT_APP_SERVER_HOST']
-
-    const uri = `http://${host}/${action}`
+    const uri = URI(action)
 
     const { file, distribution, refreshRepository } = this.state
 

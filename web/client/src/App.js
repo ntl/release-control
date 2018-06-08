@@ -9,6 +9,8 @@ import request from 'request'
 import Navigation from './components/Navigation'
 import * as Screens from './screens'
 
+import URI from './Server/URI'
+
 class App extends Component {
   state = {
     repository: {
@@ -22,15 +24,14 @@ class App extends Component {
   }
 
   refreshRepository = () => {
-    let host = process.env['REACT_APP_SERVER_HOST']
-    let uri = `http://${host}/repository`
+    const uri = URI('/repository')
 
     request(uri, (error, response, body) => {
-      let repository = JSON.parse(body)
+      const repository = JSON.parse(body)
 
-      let lastRefreshTimeRaw = new Date()
+      const lastRefreshTimeRaw = new Date()
 
-      let lastRefreshTime = lastRefreshTimeRaw.toLocaleString()
+      const lastRefreshTime = lastRefreshTimeRaw.toLocaleString()
 
       this.setRepository(repository, lastRefreshTime)
     })

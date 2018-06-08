@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import request from 'request'
 
 import * as UI from 'semantic-ui-react'
 import classNames from 'classnames'
+
+import request from 'request'
+import URI from '../../Server/URI'
 
 import './index.css'
 
@@ -30,9 +32,7 @@ class DistributionCell extends Component {
       targetDistribution: state.distribution.name
     }
 
-    const host = process.env['REACT_APP_SERVER_HOST']
-
-    const uri = `http://${host}/copy-package`
+    const uri = URI('/copy-package')
 
     request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
       if(err) {
@@ -53,9 +53,7 @@ class DistributionCell extends Component {
       distribution: state.distribution.name
     }
 
-    const host = process.env['REACT_APP_SERVER_HOST']
-
-    const uri = `http://${host}/remove-package`
+    const uri = URI('/remove-package')
 
     request.post({ url: uri, form: requestBody }, ((err, httpResponse) => {
       if(err) {
